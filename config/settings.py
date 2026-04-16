@@ -18,7 +18,11 @@ DEBUG = os.getenv('DEBUG') == 'True'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'my-photo-portfolio.onrender.com', # あなたの公開サイトのURL
+    'localhost',
+    '127.0.0.1',
+]
 
 
 # Application definition
