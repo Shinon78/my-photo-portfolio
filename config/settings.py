@@ -66,20 +66,20 @@ DATABASES = {
     )
 }
 
-# --- ファイル保存設定（ライブラリの互換性のために新旧両方記述） ---
+# --- ファイル保存設定（エラー回避のための標準モード） ---
 
-# 1. Django 6.0 本来の書き方
 STORAGES = {
     "default": {
         "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
     },
     "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
+        # 圧縮（Compressed）を抜いた、最もエラーが起きにくい設定に変更しました
+        "BACKEND": "whitenoise.storage.WhiteNoiseStorage",
     },
 }
 
-# 2. ライブラリがエラーを出さないための古い書き方（あえて残します）
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+# ライブラリ互換性のための古い書き方も「標準モード」に合わせます
+STATICFILES_STORAGE = 'whitenoise.storage.WhiteNoiseStorage'
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # --- ここまで ---
