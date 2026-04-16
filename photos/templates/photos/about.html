@@ -1,0 +1,78 @@
+{% extends 'photos/base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="mb-5 py-3 border-bottom d-flex justify-content-between align-items-end">
+            <h2 style="letter-spacing: 0.4rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.1); font-weight: 700; color: #555; margin-bottom: 0;">ABOUT ME</h2>
+            <p class="text-muted small mb-1">Profile & Equipment</p>
+        </div>
+
+        <div class="row mt-5">
+            <div class="col-md-7">
+                <h3 class="fw-bold mb-4">Shinon</h3>
+                <p class="lead mb-5" style="line-height: 2; color: #444;">
+                    工学部に在籍し、電子システム工学を専攻する学生エンジニアです。<br>
+                    理論に基づく「設計」と、現場で培った「修理」の技術、そして光を捉える「写真」の感性を融合させたものづくりを追求しています。
+                </p>
+
+                <h5 class="fw-bold border-start border-dark border-4 ps-3 mb-4">Engineering & Hardware</h5>
+                <p class="mb-5 text-muted" style="line-height: 1.8;">
+                    精密機器の内部構造に深い関心を持ち、スマートフォンをはじめとする電子デバイスのメンテナンスやトラブルシューティングに従事しています。
+                    ハードウェアの「仕組み」を理解し、最適化するプロセスにやりがいを感じています。<br>
+                    また、3D CADを用いた設計や3Dプリンター、Raspberry Piを活用した自作ドローンの開発など、デジタルファブリケーション領域でも活動しています。
+                </p>
+
+                <h5 class="fw-bold border-start border-dark border-4 ps-3 mb-4">Photography</h5>
+                <p class="mb-5 text-muted" style="line-height: 1.8;">
+                    Nikon D3100を愛機とし、日常の何気ない風景や、旅先での一瞬を切り取っています。<br>
+                    エンジニア的な視点による緻密な構図作りと、単焦点レンズを活かしたボケ味のある情緒的な表現、そして広角から望遠まで状況に応じたレンズワークを大切にしています。
+                </p>
+            </div>
+
+            <div class="col-md-4 offset-md-1">
+                <div class="p-4 bg-white shadow-sm rounded-3 border-0">
+                    <h6 class="fw-bold mb-3 text-dark" style="letter-spacing: 0.1rem;">FOCUS</h6>
+                    <p class="small text-muted mb-4" style="line-height: 1.6;">
+                        ・Electronic Systems Engineering<br>
+                        ・Hardware Repair & Maintenance<br>
+                        ・Digital Fabrication (3D Print/CAD)<br>
+                        ・Landscape & Portrait Photography
+                    </p>
+
+                    <h6 class="fw-bold mb-3 text-dark" style="letter-spacing: 0.1rem;">STATUS</h6>
+                    <p class="small text-muted mb-4">Engineering Student</p>
+
+                    <h6 class="fw-bold mb-3 text-dark" style="letter-spacing: 0.1rem;">EQUIPMENT</h6>
+                    <div class="small text-muted">
+                        <p class="fw-bold mb-1 text-secondary" style="font-size: 0.7rem; letter-spacing: 0.05rem;">CAMERA BODY</p>
+                        <p class="mb-3">Nikon D3100</p>
+                        
+                        <p class="fw-bold mb-1 text-secondary" style="font-size: 0.7rem; letter-spacing: 0.1rem;">LENSES</p>
+                        <ul class="list-unstyled mb-0" style="line-height: 1.6;">
+                            <li class="mb-2">
+                                <span class="d-block text-dark">AF-S DX NIKKOR 35mm f/1.8G</span>
+                                <span class="text-muted" style="font-size: 0.75rem;">Mainly for street & portrait</span>
+                            </li>
+                            <li class="mb-2">
+                                <span class="d-block text-dark">AF-S DX NIKKOR 18-55mm f/3.5-5.6G VR</span>
+                                <span class="text-muted" style="font-size: 0.75rem;">Standard zoom for travel</span>
+                            </li>
+                            <li class="mb-0">
+                                <span class="d-block text-dark">AF-S DX NIKKOR 55-300mm f/4.5-5.6G ED VR</span>
+                                <span class="text-muted" style="font-size: 0.75rem;">Telephoto zoom for details</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="mt-4 p-3 border-start border-2 border-secondary">
+                    <p class="small text-muted mb-0">
+                        「直す」から「創る」へ。ハードウェアとソフトウェアの架け橋となるエンジニアを目指しています。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

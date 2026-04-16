@@ -1,0 +1,94 @@
+{% extends 'photos/base.html' %}
+
+{% block content %}
+<style>
+    /* 1. タイトルの装飾（GALLERYに影を付ける） */
+    .gallery-header {
+        letter-spacing: 0.4rem;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        font-weight: 700;
+        color: #555;
+    }
+
+    /* 2. カードの挙動（浮き上がりと影） */
+    .card {
+        border: none;
+        border-radius: 15px;
+        background-color: #fff;
+        transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    }
+    
+    .card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.12) !important;
+    }
+
+    /* 3. 画像のズーム演出 */
+    .card-img-wrapper {
+        overflow: hidden;
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+    }
+    
+    .card-img-top {
+        transition: transform 0.6s ease;
+    }
+    
+    .card:hover .card-img-top {
+        transform: scale(1.06);
+    }
+
+    /* 4. ボタンのカスタマイズ（丸みと滑らかな変化） */
+    .btn-view {
+        border-radius: 30px;
+        letter-spacing: 0.1rem;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-view:hover {
+        background-color: #444;
+        transform: scale(1.05);
+    }
+
+    /* タイトル下のアクセント線 */
+    .title-line {
+        width: 40px;
+        margin: 1.2rem auto;
+        border-top: 2px solid #333;
+        opacity: 0.8;
+    }
+</style>
+
+<div class="mb-5 py-3 border-bottom d-flex justify-content-between align-items-end">
+    <h2 class="gallery-header mb-0">GALLERY</h2>
+    <p class="text-muted small mb-1">Recent Works</p>
+</div>
+
+<div class="row">
+    {% for post in posts %}
+    <div class="col-md-6 col-lg-4 mb-5">
+        <div class="card h-100 shadow-sm">
+            
+            <div class="card-img-wrapper">
+                {% if post.image %}
+                <img src="{{ post.image.url }}" class="card-img-top" alt="{{ post.title }}" style="object-fit: cover; height: 260px; width: 100%;">
+                {% endif %}
+            </div>
+            
+            <div class="card-body p-4 text-center">
+                <h5 class="card-title fw-bold mb-0">{{ post.title }}</h5>
+                
+                <div class="title-line"></div>
+                
+                <p class="card-text text-muted small mb-4">
+                    {{ post.created_at|date:"Y.m.d" }}
+                </p>
+                
+                <a href="{% url 'photos:detail' post.pk %}" class="btn btn-dark btn-sm px-4 py-2 btn-view">VIEW MORE</a>
+            </div>
+            
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

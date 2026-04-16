@@ -1,0 +1,23 @@
+{% extends 'photos/base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow mt-3 mb-5">
+            {% if post.image %}
+            <img src="{{ post.image.url }}" class="card-img-top" alt="{{ post.title }}">
+            {% endif %}
+            <div class="card-body p-4">
+                <h2 class="card-title fw-bold mb-3">{{ post.title }}</h2>
+                <p class="text-muted border-bottom pb-2">🕒 投稿日: {{ post.created_at|date:"Y年m月d日 H:i" }}</p>
+                
+                <p class="card-text mt-4" style="white-space: pre-wrap; font-size: 1.1rem;">{{ post.content }}</p>
+                
+                <div class="mt-5 text-center">
+                    <a href="{% url 'photos:index' %}" class="btn btn-secondary px-5">← 一覧に戻る</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
