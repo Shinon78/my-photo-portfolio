@@ -1,25 +1,20 @@
-import os  # もし無ければ追加
+import os
 from pathlib import Path
-from dotenv import load_dotenv  # インストールした道具
+from dotenv import load_dotenv
 
-# .envファイルを読み込む指示（これが必要！）
+# .envファイルを読み込む
 load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# --- ここを書き換え！ ---
-# 直接文字を書かずに、os.getenv で .env の中身を読み取ります
+# 環境変数から秘密鍵を読み込む
 SECRET_KEY = os.getenv('SECRET_KEY')
 
-# DEBUGも同様に .env から読み取り（文字列の 'True' かどうかを判定）
+# 環境変数からDEBUGモードを読み込む（'True' の場合のみTrueになる）
 DEBUG = os.getenv('DEBUG') == 'True'
-# -----------------------
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
 ALLOWED_HOSTS = [
-    'my-photo-portfolio.onrender.com', # あなたの公開サイトのURL
+    'my-photo-portfolio.onrender.com',
     'localhost',
     '127.0.0.1',
 ]
@@ -28,18 +23,20 @@ ALLOWED_HOSTS = [
 # Application definition
 
 INSTALLED_APPS = [
+    'cloudinary_storage',  # Cloudinaryは staticfiles より上に配置
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cloudinary',
     'photos',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # 静的ファイル配信用
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -69,8 +66,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 
 # Database
-# https://docs.djangoproject.com/en/6.0/ref/settings/#databases
-
+# 注意: Renderの無料プランでは、sqlite3は再起動時に初期化されます。
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -80,8 +76,6 @@ DATABASES = {
 
 
 # Password validation
-# https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -99,29 +93,32 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 # Internationalization
-# https://docs.djangoproject.com/en/6.0/topics/i18n/
-
 LANGUAGE_CODE = 'ja'
-
-
 TIME_ZONE = 'Asia/Tokyo'
-
 USE_I18N = True
-
 USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/6.0/howto/static-files/
-
 STATIC_URL = 'static/'
-# --- ここから追加 ---
-# 本番環境でデザインファイルを一箇所に集める場所
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-# WhiteNoiseを使って効率よく配信する設定
+# WhiteNoise設定
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-# ------------------
-import os
+
+
+# Cloudinary / Media files settings
+# 画像が消えないようにCloudinaryをメディア保存先に指定
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME'),
+    'API_KEY': os.getenv('CLOUDINARY_API_KEY'),
+    'API_SECRET': os.getenv('CLOUDINARY_API_SECRET'),
+}
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = BASE_DIR / 'media'
+
+# Default primary key field type
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
