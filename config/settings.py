@@ -72,12 +72,13 @@ STORAGES = {
         "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
     },
     "staticfiles": {
-        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+        # 圧縮やハッシュ化をせず、WhiteNoiseでそのまま配信する設定
+        "BACKEND": "whitenoise.storage.StaticFilesStorage",
     },
 }
 
 # 互換性のための古い書き方
-STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.StaticFilesStorage'
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 # --- ここまで ---
 
