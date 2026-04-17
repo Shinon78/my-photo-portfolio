@@ -29,7 +29,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',  # これが配信を担当します
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -67,22 +67,18 @@ DATABASES = {
 }
 
 # --- ファイル保存設定（最も安全な標準設定） ---
-
 STORAGES = {
-    # 写真（メディアファイル）をCloudinaryへ保存
     "default": {
         "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
     },
-    # デザイン（静的ファイル）は加工せず標準の仕組みで集める
     "staticfiles": {
         "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
     },
 }
 
-# ライブラリの互換性のための古い書き方（標準設定に合わせる）
+# 互換性のための古い書き方
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-
 # --- ここまで ---
 
 STATIC_URL = 'static/'
