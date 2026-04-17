@@ -68,12 +68,14 @@ DATABASES = {
 
 # --- ファイル保存設定（最も安全な標準設定） ---
 STORAGES = {
+    # 写真（メディアファイル）の設定
     "default": {
         "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
     },
+    # デザイン（静的ファイル）の設定
+    # 無理に圧縮せず、最も標準的な設定にして WhiteNoise Middleware に任せます
     "staticfiles": {
-        # 圧縮やハッシュ化をせず、WhiteNoiseでそのまま配信する設定
-        "BACKEND": "whitenoise.storage.StaticFilesStorage",
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
     },
 }
 
