@@ -7,8 +7,7 @@ load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
-DEBUG = os.getenv('DEBUG') == 'True'
-
+DEBUG = os.getenv('DEBUG', 'False') == 'True'
 ALLOWED_HOSTS = [
     'my-photo-portfolio.onrender.com',
     'localhost',
@@ -68,24 +67,24 @@ DATABASES = {
 
 # --- ファイル保存設定（最も安全な標準設定） ---
 STORAGES = {
-    # 写真（メディアファイル）の設定
     "default": {
         "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
     },
-    # デザイン（静的ファイル）の設定
-    # 無理に圧縮せず、最も標準的な設定にして WhiteNoise Middleware に任せます
     "staticfiles": {
-        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+        # ここを WhiteNoise の標準バックエンドに指定します
+        "BACKEND": "whitenoise.storage.StaticFilesStorage",
     },
 }
 
-# 互換性のための古い書き方
-STATICFILES_STORAGE = 'whitenoise.storage.StaticFilesStorage'
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-# --- ここまで ---
 
-STATIC_URL = 'static/'
+# 互換性のための古い書き方
+STATICFILES_STORAGE = "whitenoise.storage.StaticFilesStorage"
+DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
+
+# --- ここまで ---
+STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+
 
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME'),
