@@ -81,6 +81,59 @@
     </style>
 </head>
 <body>
+    <div id="loader">
+        <div class="spinner"></div>
+        <p>Now Loading...</p>
+    </div>
+    
+    <style>
+    /* プレローダーの外枠 */
+    #loader {
+        position: fixed;
+        width: 100vw;
+        height: 100vh;
+        top: 0;
+        left: 0;
+        background: #1a1a1a; /* サイドバーと同じ色で統一感 */
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        transition: opacity 0.5s ease;
+    }
+    
+    /* くるくる回るアニメーション */
+    .spinner {
+        width: 50px;
+        height: 50px;
+        border: 5px solid rgba(255,255,255,0.1);
+        border-top: 5px solid #fff;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin-bottom: 20px;
+    }
+    
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    
+    /* 読み込み完了後に消すためのクラス */
+    .loaded {
+        opacity: 0;
+        pointer-events: none;
+    }
+    </style>
+    
+    <script>
+    // ページ全体の読み込み（画像含む）が終わったら発動
+    window.addEventListener('load', function() {
+        const loader = document.getElementById('loader');
+        loader.classList.add('loaded');
+    });
+    </script>
 
     <div class="d-flex">
         <nav id="sidebar" class="p-4 text-center">
