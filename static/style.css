@@ -1,6 +1,169 @@
-PHOTO_PORTFOLIO/
-├── static/
-│   ├── .gitkeep
-│   └── style.css  ← ✨ これを新しく作る！
-├── templates/
-...
+/* =========================================
+   ベースデザイン（PC・スマホ共通）
+========================================= */
+body {
+    font-family: 'Noto Serif JP', serif;
+    background-color: #f4f5f7;
+    color: #333;
+}
+
+/* メインコンテンツエリア */
+#content {
+    width: 100%;
+    padding: 40px;
+    margin-left: 280px;
+    animation: fadeIn 0.8s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* =========================================
+   サイドバー（左側のメニュー）のデザイン
+========================================= */
+#sidebar {
+    min-width: 280px;
+    max-width: 280px;
+    min-height: 100vh;
+    background-color: #1a1a1a;
+    color: white;
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    z-index: 1040; /* コンテンツや背景より上に表示 */
+}
+
+/* ナビゲーションリンク */
+.nav-link {
+    color: #bbb;
+    transition: all 0.3s;
+    padding: 10px 20px;
+    letter-spacing: 0.1rem;
+}
+
+.nav-link:hover {
+    color: white;
+    background-color: #333;
+    padding-left: 30px;
+}
+
+/* プロフィールタイトル */
+.profile-title {
+    display: inline-block;
+    border-bottom: 3px double white;
+    padding-bottom: 4px;
+    margin-bottom: 30px;
+    letter-spacing: 0.2rem;
+    font-size: 0.85rem;
+    color: #fff;
+}
+
+.site-description {
+    font-size: 0.75rem;
+    color: #aaa;
+    line-height: 1.6;
+    margin-top: 15px;
+    padding: 0 10px;
+    text-align: left;
+}
+
+.sidebar-footer {
+    margin-top: auto;
+    padding-bottom: 20px;
+    color: #777;
+    font-size: 0.75rem;
+    line-height: 1.6;
+}
+
+/* =========================================
+   プレローダー（Now Loading画面）
+========================================= */
+#loader {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    background: #1a1a1a;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    transition: opacity 0.5s ease;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid rgba(255,255,255,0.1);
+    border-top: 5px solid #fff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 20px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.loaded {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* =========================================
+   📱 スマホ対応（レスポンシブデザイン）
+========================================= */
+
+/* メニュー展開時の暗い背景（初期は非表示） */
+#sidebarOverlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 1030;
+}
+
+/* 画面幅が768px以下の時（スマホ・タブレット縦）に適用されるルール */
+@media (max-width: 768px) {
+    /* サイドバーを画面の左外（-100%）に隠しておく */
+    #sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease-in-out; /* スライドのアニメーション */
+    }
+
+    /* JavaScriptで 'active' クラスが付いたら、元の位置（0）に戻って表示される */
+    #sidebar.active {
+        transform: translateX(0);
+    }
+
+    /* コンテンツ部分を画面いっぱいに広げる（左側の余白を消す） */
+    #content {
+        margin-left: 0;
+        padding: 20px; /* スマホ用に上下左右の余白を少し狭くする */
+        width: 100%;
+    }
+
+    /* メニューが開いている時は暗い背景を表示 */
+    #sidebarOverlay.active {
+        display: block;
+    }
+}
+
+/* 💻 画面幅が769px以上の時（PC）に適用されるルール */
+@media (min-width: 769px) {
+    #sidebar {
+        transform: translateX(0) !important; /* PCでは常に表示 */
+    }
+    #sidebarOverlay {
+        display: none !important; /* PCでは背景は出さない */
+    }
+}
