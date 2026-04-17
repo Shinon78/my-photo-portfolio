@@ -78,6 +78,7 @@ STORAGES = {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
+WHITENOISE_MANIFEST_STRICT = False
 
 # ★重要★ ライブラリの互換性のために、古い変数をあえて残します
 # これがないと Cloudinary が「STATICFILES_STORAGE がない！」と怒ります
