@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="google-site-verification" content="wcIDpoP8F-rLxn7nFptL0_Xy5NGEX-oveh8G0Zx6Dzs" />
-    <meta name="description" content="Nikon D3100で撮影した風景や日常を記録したフォトポートフォリオ">
+    <meta name="description" content="工学部大学生が自作。Nikon D3100で撮影した風景や日常を記録したフォトポートフォリオ">
     <title>Shinon's Photo Portfolio</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet">
@@ -15,7 +15,6 @@
             color: #333;
         }
 
-        /* サイドバーの設定 */
         #sidebar {
             min-width: 280px;
             max-width: 280px;
@@ -23,13 +22,10 @@
             background-color: #1a1a1a;
             color: white;
             position: fixed;
-            transition: all 0.3s;
-            /* 下部に著作権を固定するための設定 */
             display: flex;
             flex-direction: column;
         }
 
-        /* メインコンテンツの設定 */
         #content {
             width: 100%;
             padding: 40px;
@@ -42,7 +38,6 @@
             to { opacity: 1; }
         }
 
-        /* ナビゲーションリンク */
         .nav-link {
             color: #bbb;
             transition: all 0.3s;
@@ -56,10 +51,9 @@
             padding-left: 30px;
         }
 
-        /* プロフィール見出しの2重線スタイル */
         .profile-title {
             display: inline-block;
-            border-bottom: 3px double white; /* 白い2重線 */
+            border-bottom: 3px double white;
             padding-bottom: 4px;
             margin-bottom: 30px;
             letter-spacing: 0.2rem;
@@ -67,9 +61,18 @@
             color: #fff;
         }
 
-        /* コピーライト部分のスタイル */
+        /* 説明文のスタイル */
+        .site-description {
+            font-size: 0.75rem;
+            color: #aaa;
+            line-height: 1.6;
+            margin-top: 15px;
+            padding: 0 10px;
+            text-align: left;
+        }
+
         .sidebar-footer {
-            margin-top: auto; /* これで一番下に押し下げます */
+            margin-top: auto;
             padding-bottom: 20px;
             color: #777;
             font-size: 0.75rem;
@@ -88,11 +91,15 @@
             </div>
 
             <h5 class="mb-1 fw-bold">Shinon</h5>
-            <p class="small mb-5" style="color: #888; letter-spacing: 0.05rem;">Engineer & Photographer</p>
+            <p class="small mb-2" style="color: #888; letter-spacing: 0.05rem;">Engineer & Photographer</p>
+            
+            <div class="site-description">
+                <p>工学部大学生が自らWebページを構築。愛機 Nikon D3100 で切り取った景色を投稿しています。</p>
+            </div>
 
             <ul class="nav flex-column text-start mt-5">
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'photos:index' %}">GALLERY</a>
+                    <a class="nav-link" href="{% url 'photos:index' %}">PHOTO GALLERY</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'photos:about' %}">ABOUT ME</a>

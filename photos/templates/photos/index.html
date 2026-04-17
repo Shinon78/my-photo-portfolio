@@ -60,7 +60,7 @@
 </style>
 
 <div class="mb-5 py-3 border-bottom d-flex justify-content-between align-items-end">
-    <h2 class="gallery-header mb-0">GALLERY</h2>
+    <h2 class="gallery-header mb-0">PHOTO GALLERY</h2>
     <p class="text-muted small mb-1">Recent Works</p>
 </div>
 
@@ -71,7 +71,10 @@
             
             <div class="card-img-wrapper">
                 {% if post.image %}
-                <img src="{{ post.image.url }}" class="card-img-top" alt="{{ post.title }}" style="object-fit: cover; height: 260px; width: 100%;">
+                <img src="{{ post.image.url }}" 
+                     class="card-img-top" 
+                     alt="{{ post.title }} - Nikon D3100撮影" 
+                     style="object-fit: cover; height: 260px; width: 100%;">
                 {% endif %}
             </div>
             
