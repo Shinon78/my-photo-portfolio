@@ -1,11 +1,6 @@
 from django.contrib import admin
-from .models import PhotoPost
+from .models import PhotoPost, Post
 
-# PhotoPost（写真記事）を管理画面に登録する
+# すべてのモデルを1回ずつ登録します
 admin.site.register(PhotoPost)
-
-from django.contrib import admin
-from .models import PhotoPost, Post # Postを追加
-
-admin.site.register(PhotoPost)
-admin.site.register(Post) # これで管理画面に「Posts」が現れます
+admin.site.register(Post)
