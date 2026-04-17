@@ -8,8 +8,7 @@ load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
 
-# --- 修正1: DEBUG設定をより確実に ---
-# Renderの環境変数 DEBUG が 'True' でない限り、必ず False（本番モード）になります
+# --- DEBUG設定 ---
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
 ALLOWED_HOSTS = [
@@ -33,7 +32,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware', # 静的ファイル配信の要
+    'whitenoise.middleware.WhiteNoiseMiddleware', # 静的ファイル配信の要。必ず2番目！
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -70,26 +69,25 @@ DATABASES = {
     )
 }
 
-# --- 修正2: Django 6.0 STORAGES 設定（最安定版） ---
+# --- 修正箇所: STORAGES 設定 (Django 4.2+ / 5.0+ 推奨形式) ---
+# 古い STATICFILES_STORAGE 変数は削除し、この辞書形式に統一します
 STORAGES = {
-    # 写真（メディア）用
+    # 写真（メディア）用: Cloudinaryを使用
     "default": {
         "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
     },
-    # デザイン（静的ファイル）用
-    # 以前エラーが出た「Compressed」を避け、最も標準的な設定にします
+    # デザイン（静的ファイル）用: WhiteNoiseを使用
+    # CompressedManifest... を使うことで、CSSファイルを圧縮し、キャッシュも最適化します
     "staticfiles": {
-        "BACKEND": "whitenoise.storage.StaticFilesStorage",
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
 
-# ライブラリ互換用の古い変数
-STATICFILES_STORAGE = "whitenoise.storage.StaticFilesStorage"
-DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
-
-# --- 修正3: パスの設定 ---
+# --- パスの設定 ---
 STATIC_URL = '/static/'
+# 自分で作成した static フォルダを探しに行く場所
 STATICFILES_DIRS = [BASE_DIR / 'static']
+# collectstatic コマンドでファイルが集められる最終目的地
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Cloudinary設定
@@ -103,15 +101,4 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 # その他共通設定
-AUTH_PASSWORD_VALIDATORS = [
-    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
-]
-
-LANGUAGE_CODE = 'ja'
-TIME_ZONE = 'Asia/Tokyo'
-USE_I18N = True
-USE_TZ = True
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+AUTH_
