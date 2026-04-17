@@ -32,7 +32,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware', # 静的ファイル配信の要。必ず2番目！
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -69,25 +69,24 @@ DATABASES = {
     )
 }
 
-# --- 修正箇所: STORAGES 設定 (Django 4.2+ / 5.0+ 推奨形式) ---
-# 古い STATICFILES_STORAGE 変数は削除し、この辞書形式に統一します
+# --- ストレージ設定 ---
 STORAGES = {
-    # 写真（メディア）用: Cloudinaryを使用
     "default": {
         "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
     },
-    # デザイン（静的ファイル）用: WhiteNoiseを使用
-    # CompressedManifest... を使うことで、CSSファイルを圧縮し、キャッシュも最適化します
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
 
+# ★重要★ ライブラリの互換性のために、古い変数をあえて残します
+# これがないと Cloudinary が「STATICFILES_STORAGE がない！」と怒ります
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
+
 # --- パスの設定 ---
 STATIC_URL = '/static/'
-# 自分で作成した static フォルダを探しに行く場所
 STATICFILES_DIRS = [BASE_DIR / 'static']
-# collectstatic コマンドでファイルが集められる最終目的地
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Cloudinary設定
