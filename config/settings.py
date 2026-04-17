@@ -7,15 +7,20 @@ load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
+
+# --- 修正1: DEBUG設定をより確実に ---
+# Renderの環境変数 DEBUG が 'True' でない限り、必ず False（本番モード）になります
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
+
 ALLOWED_HOSTS = [
     'my-photo-portfolio.onrender.com',
     'localhost',
     '127.0.0.1',
 ]
 
+# Application definition
 INSTALLED_APPS = [
-    'cloudinary_storage',  # 必ず staticfiles より上に配置
+    'cloudinary_storage',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -28,7 +33,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware', # 静的ファイル配信の要
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -56,7 +61,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-# データベース設定 (Neon)
+# Database (Neon)
 DATABASES = {
     'default': dj_database_url.config(
         default=os.getenv('DATABASE_URL'),
@@ -65,27 +70,28 @@ DATABASES = {
     )
 }
 
-# --- ファイル保存設定（最も安全な標準設定） ---
+# --- 修正2: Django 6.0 STORAGES 設定（最安定版） ---
 STORAGES = {
+    # 写真（メディア）用
     "default": {
         "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
     },
+    # デザイン（静的ファイル）用
+    # 以前エラーが出た「Compressed」を避け、最も標準的な設定にします
     "staticfiles": {
-        # ここを WhiteNoise の標準バックエンドに指定します
         "BACKEND": "whitenoise.storage.StaticFilesStorage",
     },
 }
 
-
-# 互換性のための古い書き方
+# ライブラリ互換用の古い変数
 STATICFILES_STORAGE = "whitenoise.storage.StaticFilesStorage"
 DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 
-# --- ここまで ---
+# --- 修正3: パスの設定 ---
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-
+# Cloudinary設定
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME'),
     'API_KEY': os.getenv('CLOUDINARY_API_KEY'),
@@ -95,6 +101,7 @@ CLOUDINARY_STORAGE = {
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
+# その他共通設定
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
     {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
