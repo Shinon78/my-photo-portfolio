@@ -69,20 +69,19 @@ DATABASES = {
     )
 }
 
-# --- ストレージ設定 ---
+# --- ストレージ設定（ここを一番シンプルなものに修正しました！） ---
 STORAGES = {
     "default": {
         "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
     },
     "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+        "BACKEND": "whitenoise.storage.StaticFilesStorage", # ← シンプルな設定に変更
     },
 }
-WHITENOISE_MANIFEST_STRICT = False
 
-# ★重要★ ライブラリの互換性のために、古い変数をあえて残します
-# これがないと Cloudinary が「STATICFILES_STORAGE がない！」と怒ります
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+# ★重要★ ライブラリ互換用の古い変数も上記に合わせて修正
+# （シンプルな設定にしたため、WHITENOISE_MANIFEST_STRICT の行は不要になり削除しました）
+STATICFILES_STORAGE = "whitenoise.storage.StaticFilesStorage" # ← シンプルな設定に変更
 DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 
 # --- パスの設定 ---
