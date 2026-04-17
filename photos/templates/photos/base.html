@@ -61,7 +61,6 @@
             color: #fff;
         }
 
-        /* 説明文のスタイル */
         .site-description {
             font-size: 0.75rem;
             color: #aaa;
@@ -78,6 +77,43 @@
             font-size: 0.75rem;
             line-height: 1.6;
         }
+
+        /* プレローダー */
+        #loader {
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            top: 0;
+            left: 0;
+            background: #1a1a1a;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            transition: opacity 0.5s ease;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255,255,255,0.1);
+            border-top: 5px solid #fff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loaded {
+            opacity: 0;
+            pointer-events: none;
+        }
     </style>
 </head>
 <body>
@@ -86,53 +122,11 @@
         <p>Now Loading...</p>
     </div>
     
-    <style>
-    /* プレローダーの外枠 */
-    #loader {
-        position: fixed;
-        width: 100vw;
-        height: 100vh;
-        top: 0;
-        left: 0;
-        background: #1a1a1a; /* サイドバーと同じ色で統一感 */
-        z-index: 9999;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        color: white;
-        transition: opacity 0.5s ease;
-    }
-    
-    /* くるくる回るアニメーション */
-    .spinner {
-        width: 50px;
-        height: 50px;
-        border: 5px solid rgba(255,255,255,0.1);
-        border-top: 5px solid #fff;
-        border-radius: 50%;
-        animation: spin 1s linear infinite;
-        margin-bottom: 20px;
-    }
-    
-    @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-    }
-    
-    /* 読み込み完了後に消すためのクラス */
-    .loaded {
-        opacity: 0;
-        pointer-events: none;
-    }
-    </style>
-    
     <script>
-    // ページ全体の読み込み（画像含む）が終わったら発動
-    window.addEventListener('load', function() {
-        const loader = document.getElementById('loader');
-        loader.classList.add('loaded');
-    });
+        window.addEventListener('load', function() {
+            const loader = document.getElementById('loader');
+            loader.classList.add('loaded');
+        });
     </script>
 
     <div class="d-flex">
@@ -152,21 +146,13 @@
 
             <ul class="nav flex-column text-start mt-5">
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'photos:index' %}">PHOTO GALLERY</a>
+                    <a class="nav-link" href="{% url 'photos:index' %}">GALLERY</a>
                 </li>
-                <ul class="nav flex-column text-start mt-5">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'photos:index' %}">GALLERY</a>
-                    </li>
-                
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'photos:post_list' %}">BLOG</a>
-                    </li>
-                
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'photos:about' %}">ABOUT ME</a>
-                    </li>
-                </ul>
+            
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'photos:post_list' %}">BLOG</a>
+                </li>
+            
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'photos:about' %}">ABOUT ME</a>
                 </li>
