@@ -18,15 +18,14 @@ ALLOWED_HOSTS = [
 ]
 
 # Application definition
-# ★ここが最大の修正ポイントです！staticfiles の下に cloudinary を配置しました★
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',  # ← 1. まずDjango標準のデザイン収集係を呼ぶ
-    'cloudinary_storage',          # ← 2. その後にCloudinary（画像係）を呼ぶ
+    'django.contrib.staticfiles',
+    'cloudinary_storage',
     'cloudinary',
     'photos',
 ]
@@ -80,7 +79,6 @@ STORAGES = {
     },
 }
 
-# ライブラリ互換用の古い変数
 STATICFILES_STORAGE = "whitenoise.storage.StaticFilesStorage"
 DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 
@@ -89,6 +87,26 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-# Cloudinary設定
+# --- 修正完了: Cloudinary設定（ここが途切れていました！） ---
 CLOUDINARY_STORAGE = {
-    'CLOUD
+    'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME'),
+    'API_KEY': os.getenv('CLOUDINARY_API_KEY'),
+    'API_SECRET': os.getenv('CLOUDINARY_API_SECRET'),
+}
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
+# その他共通設定
+AUTH_PASSWORD_VALIDATORS = [
+    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
+]
+
+LANGUAGE_CODE = 'ja'
+TIME_ZONE = 'Asia/Tokyo'
+USE_I18N = True
+USE_TZ = True
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
