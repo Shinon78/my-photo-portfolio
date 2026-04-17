@@ -24,6 +24,9 @@
             color: white;
             position: fixed;
             transition: all 0.3s;
+            /* 下部に著作権を固定するための設定 */
+            display: flex;
+            flex-direction: column;
         }
 
         /* メインコンテンツの設定 */
@@ -58,10 +61,19 @@
             display: inline-block;
             border-bottom: 3px double white; /* 白い2重線 */
             padding-bottom: 4px;
-            margin-bottom: 30px; /* 下の名前との間隔を少し広げました */
+            margin-bottom: 30px;
             letter-spacing: 0.2rem;
             font-size: 0.85rem;
             color: #fff;
+        }
+
+        /* コピーライト部分のスタイル */
+        .sidebar-footer {
+            margin-top: auto; /* これで一番下に押し下げます */
+            padding-bottom: 20px;
+            color: #777;
+            font-size: 0.75rem;
+            line-height: 1.6;
         }
     </style>
 </head>
@@ -69,7 +81,7 @@
 
     <div class="d-flex">
         <nav id="sidebar" class="p-4 text-center">
-            <h4 class="mb-5 mt-3 fw-bold" style="letter-spacing: 0.1rem;">My Photo Portfolio</h4>
+            <h4 class="mb-5 mt-3 fw-bold" style="letter-spacing: 0.1rem;">Shinon's Photo Portfolio</h4>
             
             <div class="mt-4">
                 <span class="profile-title">PROFILE</span>
@@ -86,6 +98,14 @@
                     <a class="nav-link" href="{% url 'photos:about' %}">ABOUT ME</a>
                 </li>
             </ul>
+
+            <div class="sidebar-footer">
+                <p>
+                    &copy; 2026 Shinon<br>
+                    All rights reserved.<br>
+                    当サイト内の文章・画像の<br>無断転載禁止
+                </p>
+            </div>
         </nav>
 
         <div id="content">
