@@ -1,6 +1,7 @@
 from django.db import models
+from django.utils import timezone
+from cloudinary.models import CloudinaryField
 
-from django.db import models
 
 class PhotoPost(models.Model):
     title = models.CharField('タイトル', max_length=100)

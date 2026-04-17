@@ -10,3 +10,18 @@ def detail(request, pk):
     return render(request, 'photos/detail.html', {'post': post})
 def about(request):
     return render(request, 'photos/about.html')
+
+from django.views.generic import ListView, DetailView
+from .models import Post
+
+# 記事一覧を表示するルール
+class PostListView(ListView):
+    model = Post
+    template_name = 'photos/post_list.html'
+    context_object_name = 'posts'
+    paginate_by = 5 # 1ページに5記事表示
+
+# 記事の詳細を表示するルール
+class PostDetailView(DetailView):
+    model = Post
+    template_name = 'photos/post_detail.html'
