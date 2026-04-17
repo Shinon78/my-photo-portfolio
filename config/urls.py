@@ -1,23 +1,22 @@
-"""
-URL configuration for config project.
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/6.0/topics/http/urls/
-"""
-
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.static import serve # 追加
 
 urlpatterns = [
-    # 🌟 管理画面のURLを「admin/」から推測されにくい独自の文字列に変更しました
+    # 秘密の管理画面URL
     path('shino-secret-entry/', admin.site.urls),
     
-    # 写真アプリ（photos）のURL設定を読み込みます
+    # メインアプリ
     path('', include('photos.urls')),
+
+    # 本番環境（DEBUG=False）でも静的ファイルやメディアを配信するための「バックアップ配線」
+    re_path(r'^static/(?P<path>.*)$', serve, {'document_root': settings.STATIC_ROOT}),
+    re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
 ]
 
-# 🌟 開発環境（DEBUG=True）の場合のみ、アップロードされた画像を表示するための設定を追加
+# 開発環境用の設定（念のため残す）
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
