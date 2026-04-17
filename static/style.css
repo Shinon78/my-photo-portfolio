@@ -120,24 +120,12 @@ body {
    📱 スマホ対応（レスポンシブデザイン）
 ========================================= */
 
-/* メニュー展開時の暗い背景（初期は非表示） */
-#sidebarOverlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.6);
-    z-index: 1030;
-}
-
 /* 画面幅が768px以下の時（スマホ・タブレット縦）に適用されるルール */
 @media (max-width: 768px) {
     /* サイドバーを画面の左外（-100%）に隠しておく */
     #sidebar {
         transform: translateX(-100%);
-        transition: transform 0.3s ease-in-out; /* スライドのアニメーション */
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* スムーズなスライドアニメーション */
     }
 
     /* JavaScriptで 'active' クラスが付いたら、元の位置（0）に戻って表示される */
@@ -145,16 +133,52 @@ body {
         transform: translateX(0);
     }
 
-    /* コンテンツ部分を画面いっぱいに広げる（左側の余白を消す） */
+    /* コンテンツ部分の余白調整 */
     #content {
         margin-left: 0;
-        padding: 20px; /* スマホ用に上下左右の余白を少し狭くする */
+        /* スマホ時は上部にボタンがあるため、上の余白(80px)を多めに取る */
+        padding: 80px 15px 30px 15px !important; 
         width: 100%;
     }
 
-    /* メニューが開いている時は暗い背景を表示 */
+    /* メニュー展開時の暗い背景（すりガラス効果付き） */
+    #sidebarOverlay {
+        display: none;
+        position: fixed;
+        top: 0; left: 0;
+        width: 100vw; height: 100vh;
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(3px); /* 背景の写真をぼかす */
+        z-index: 1030;
+    }
+
     #sidebarOverlay.active {
         display: block;
+        animation: fadeInOverlay 0.3s ease;
+    }
+
+    @keyframes fadeInOverlay {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    /* --- 写真とタイトルの見た目調整 --- */
+    /* 1. タイトル部分が重ならないように中央揃えで縦に並べる */
+    #content .d-flex {
+        flex-direction: column !important;
+        align-items: center !important;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    
+    /* 2. 写真（カード）の横幅を画面いっぱいに広げる */
+    .card {
+        width: 100% !important;
+        max-width: 450px;
+        margin: 0 auto 30px auto !important;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08); /* 綺麗な影をつける */
+        border: none;
     }
 }
 
