@@ -18,14 +18,15 @@ ALLOWED_HOSTS = [
 ]
 
 # Application definition
+# ★ここが最大の修正ポイントです！staticfiles の下に cloudinary を配置しました★
 INSTALLED_APPS = [
-    'cloudinary_storage',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
+    'django.contrib.staticfiles',  # ← 1. まずDjango標準のデザイン収集係を呼ぶ
+    'cloudinary_storage',          # ← 2. その後にCloudinary（画像係）を呼ぶ
     'cloudinary',
     'photos',
 ]
@@ -69,19 +70,18 @@ DATABASES = {
     )
 }
 
-# --- ストレージ設定（ここを一番シンプルなものに修正しました！） ---
+# --- ストレージ設定 ---
 STORAGES = {
     "default": {
         "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
     },
     "staticfiles": {
-        "BACKEND": "whitenoise.storage.StaticFilesStorage", # ← シンプルな設定に変更
+        "BACKEND": "whitenoise.storage.StaticFilesStorage",
     },
 }
 
-# ★重要★ ライブラリ互換用の古い変数も上記に合わせて修正
-# （シンプルな設定にしたため、WHITENOISE_MANIFEST_STRICT の行は不要になり削除しました）
-STATICFILES_STORAGE = "whitenoise.storage.StaticFilesStorage" # ← シンプルな設定に変更
+# ライブラリ互換用の古い変数
+STATICFILES_STORAGE = "whitenoise.storage.StaticFilesStorage"
 DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 
 # --- パスの設定 ---
@@ -91,24 +91,4 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Cloudinary設定
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME'),
-    'API_KEY': os.getenv('CLOUDINARY_API_KEY'),
-    'API_SECRET': os.getenv('CLOUDINARY_API_SECRET'),
-}
-
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
-
-# その他共通設定
-AUTH_PASSWORD_VALIDATORS = [
-    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
-]
-
-LANGUAGE_CODE = 'ja'
-TIME_ZONE = 'Asia/Tokyo'
-USE_I18N = True
-USE_TZ = True
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+    'CLOUD
