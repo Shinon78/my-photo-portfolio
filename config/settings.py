@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'cloudinary_storage',
     'cloudinary',
     'photos',
+    'django_summernote',
 ]
 
 MIDDLEWARE = [
@@ -110,3 +111,4 @@ TIME_ZONE = 'Asia/Tokyo'
 USE_I18N = True
 USE_TZ = True
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+X_FRAME_OPTIONS = 'SAMEORIGIN'
