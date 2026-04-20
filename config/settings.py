@@ -116,7 +116,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 
+
+# --- サマーノートの保存先を強力に固定する ---
 SUMMERNOTE_CONFIG = {
     'sanitize_html': False,
     'attachment_storage_class': 'cloudinary_storage.storage.MediaCloudinaryStorage',
+    'attachment_upload_to': 'django-summernote/',
 }
