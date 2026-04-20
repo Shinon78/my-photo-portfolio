@@ -1,5 +1,22 @@
 {% extends "photos/base.html" %}
+
 {% block content %}
+<style>
+    .post-content img {
+        max-width: 100% !important;  /* スマホで見ても画面からはみ出さない */
+        height: auto !important;
+        display: block;
+        margin: 2.5rem auto;         /* 画像の上下に綺麗な余白を作る */
+        border-radius: 8px;          /* 角を少し丸くする */
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1); /* 軽い影で画像を浮き立たせる */
+    }
+    
+    /* YouTubeの動画などを埋め込んだ時にはみ出さない設定 */
+    .post-content iframe {
+        max-width: 100%;
+    }
+</style>
+
 <div class="container" style="max-width: 800px;">
     <p class="text-muted">{{ post.created_at|date:"Y.m.d" }}</p>
     <h1 class="mb-5 fw-bold">{{ post.title }}</h1>
@@ -10,7 +27,7 @@
     </div>
     {% endif %}
 
-    <div style="line-height: 2; letter-spacing: 0.05rem; white-space: pre-wrap;">
+    <div class="post-content" style="line-height: 2; letter-spacing: 0.05rem;">
         {{ post.content|safe }}
     </div>
 
