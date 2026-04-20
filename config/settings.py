@@ -16,6 +16,8 @@ ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
 ]
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+CSRF_TRUSTED_ORIGINS = ['https://my-photo-portfolio.onrender.com']
 
 # Application definition
 INSTALLED_APPS = [
