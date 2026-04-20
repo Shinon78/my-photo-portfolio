@@ -9,7 +9,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # --- DEBUG設定 ---
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     'my-photo-portfolio.onrender.com',
