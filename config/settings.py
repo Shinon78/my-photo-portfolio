@@ -115,4 +115,5 @@ X_FRAME_OPTIONS = 'SAMEORIGIN'
 # --- サマーノートのエラー回避設定 ---
 SUMMERNOTE_CONFIG = {
     'sanitize_html': False,
+    'attachment_storage_class': 'cloudinary_storage.storage.MediaCloudinaryStorage',
 }
