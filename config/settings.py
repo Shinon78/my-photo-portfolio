@@ -19,7 +19,7 @@ ALLOWED_HOSTS = [
 
 # Application definition
 INSTALLED_APPS = [
-    'cloudinary_storage',
+    'cloudinary_storage', # 必ず一番上
     'cloudinary',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -70,8 +70,13 @@ DATABASES = {
     )
 }
 
-# --- ストレージ設定（新旧両方の書き方を併記してエラーを回避） ---
-# 最新のDjango用
+# --- 重要：新旧両方のストレージ設定を記述 ---
+
+# 1. 昔のライブラリが探しに来る古い変数名
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.StaticFilesStorage'
+
+# 2. Django 4.2+ 以降の新しい形式
 STORAGES = {
     "default": {
         "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
@@ -81,45 +86,31 @@ STORAGES = {
     },
 }
 
-# 古いライブラリ（Cloudinary）の互換性用
-STATICFILES_STORAGE = "whitenoise.storage.StaticFilesStorage"
-DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
-
-# --- パスの設定 ---
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / 'static']
-STATIC_ROOT = BASE_DIR / 'staticfiles'
-
-# --- Cloudinary設定 ---
+# --- Cloudinary接続設定 ---
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME'),
     'API_KEY': os.getenv('CLOUDINARY_API_KEY'),
     'API_SECRET': os.getenv('CLOUDINARY_API_SECRET'),
 }
 
+# --- パスの設定 ---
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [BASE_DIR / 'static']
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 # その他共通設定
-AUTH_PASSWORD_VALIDATORS = [
-    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
-]
-
 LANGUAGE_CODE = 'ja'
 TIME_ZONE = 'Asia/Tokyo'
 USE_I18N = True
 USE_TZ = True
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 
-
-# --- サマーノートの保存先を強力に固定する ---
+# --- サマーノート設定 ---
 SUMMERNOTE_CONFIG = {
     'sanitize_html': False,
     'attachment_storage_class': 'cloudinary_storage.storage.MediaCloudinaryStorage',
-    'attachment_upload_to': 'django-summernote/',
 }
