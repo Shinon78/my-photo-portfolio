@@ -9,6 +9,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # --- DEBUG設定 ---
+# 動作確認が終わったら False に書き換えてください
 DEBUG = True
 
 ALLOWED_HOSTS = [
@@ -19,7 +20,8 @@ ALLOWED_HOSTS = [
 
 # Application definition
 INSTALLED_APPS = [
-    'cloudinary_storage',     # ★一番上に移動
+    # Cloudinaryを一番上に配置（これが動作の鍵です）
+    'cloudinary_storage',
     'cloudinary',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -70,7 +72,7 @@ DATABASES = {
     )
 }
 
-# --- ストレージ設定 ---
+# --- ストレージ設定（最新のDjango 4.2+形式に一本化） ---
 STORAGES = {
     "default": {
         "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
@@ -80,15 +82,12 @@ STORAGES = {
     },
 }
 
-STATICFILES_STORAGE = "whitenoise.storage.StaticFilesStorage"
-DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
-
 # --- パスの設定 ---
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-# --- 修正完了: Cloudinary設定（ここが途切れていました！） ---
+# --- Cloudinary設定 ---
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME'),
     'API_KEY': os.getenv('CLOUDINARY_API_KEY'),
@@ -111,11 +110,11 @@ TIME_ZONE = 'Asia/Tokyo'
 USE_I18N = True
 USE_TZ = True
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# --- サマーノートの詳細設定 ---
 X_FRAME_OPTIONS = 'SAMEORIGIN'
-# --- サマーノートのエラー回避設定 ---
-# --- サマーノートのエラー回避と保存先の設定 ---
+
 SUMMERNOTE_CONFIG = {
     'sanitize_html': False,
-    # サマーノートにCloudinaryの倉庫クラスを直接指定
     'attachment_storage_class': 'cloudinary_storage.storage.MediaCloudinaryStorage',
 }
