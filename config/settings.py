@@ -9,7 +9,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # --- DEBUG設定 ---
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
     'my-photo-portfolio.onrender.com',
@@ -112,4 +112,7 @@ USE_I18N = True
 USE_TZ = True
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 X_FRAME_OPTIONS = 'SAMEORIGIN'
-
+# --- サマーノートのエラー回避設定 ---
+SUMMERNOTE_CONFIG = {
+    'sanitize_html': False,
+}
