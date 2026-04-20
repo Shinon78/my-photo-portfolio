@@ -19,14 +19,14 @@ ALLOWED_HOSTS = [
 
 # Application definition
 INSTALLED_APPS = [
+    'cloudinary_storage',     # ★一番上に移動
+    'cloudinary',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'cloudinary_storage',
-    'cloudinary',
     'photos',
     'django_summernote',
 ]
@@ -116,5 +116,6 @@ X_FRAME_OPTIONS = 'SAMEORIGIN'
 # --- サマーノートのエラー回避と保存先の設定 ---
 SUMMERNOTE_CONFIG = {
     'sanitize_html': False,
+    # サマーノートにCloudinaryの倉庫クラスを直接指定
     'attachment_storage_class': 'cloudinary_storage.storage.MediaCloudinaryStorage',
 }
