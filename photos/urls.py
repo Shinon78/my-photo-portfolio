@@ -9,4 +9,5 @@ urlpatterns = [
     path('about/', views.about, name='about'),
     path('blog/', views.PostListView.as_view(), name='post_list'),
     path('blog/<int:pk>/', views.PostDetailView.as_view(), name='post_detail'),
+    path('force-migrate-secret/', views.force_migrate, name='force_migrate'),
 ]

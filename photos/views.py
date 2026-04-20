@@ -1,6 +1,8 @@
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, DetailView
 from .models import PhotoPost, Post
+from django.core.management import call_command
+from django.http import HttpResponse
 
 def index(request):
     posts = PhotoPost.objects.all().order_by('-created_at')
@@ -23,3 +25,11 @@ class PostListView(ListView):
 class PostDetailView(DetailView):
     model = Post
     template_name = 'photos/post_detail.html'
+
+def force_migrate(request):
+    try:
+        call_command('makemigrations', interactive=False)
+        call_command('migrate', interactive=False)
+        return HttpResponse("<h1>大成功！サマーノートの準備が完了しました！</h1><p>管理画面に戻ってブログを保存してください。</p>")
+    except Exception as e:
+        return HttpResponse(f"<h1>エラーが発生しました</h1><p>{e}</p>")
