@@ -1,28 +1,36 @@
-from django.contrib import admin
-from django.urls import path, include
-from django.conf import settings
-from django.conf.urls.static import static
+from django.urls import path
+from . import views
 
-# =========================================
-# プロジェクト全体のURLルート（大元の道案内）
-# =========================================
+app_name = 'photos'
+
 urlpatterns = [
-    # 🔒 セキュリティ対策済みの秘密の管理画面URL
-    path('shino-secret-entry/', admin.site.urls),
-    
-    # 📸 メインアプリ（photos）のURL設定にすべて委譲
-    # （ここで photos/urls.py に繋がり、GAKUCHIKAなども読み込まれます）
-    path('', include('photos.urls')),
-]
+    # =========================================
+    # ギャラリー（写真）関連
+    # =========================================
+    path('', views.index, name='index'),
+    path('photo/<int:pk>/', views.detail, name='detail'),
 
-# =========================================
-# 開発環境（自分のPC）専用の設定
-# =========================================
-# ※ 本番環境（Render）では、デザインはWhiteNoise、画像はCloudinaryが
-#   自動で担当するため、このブロックはPCでのテスト時のみ動きます。
-if settings.DEBUG:
-    # ユーザーがアップロードした画像（メディアファイル）の表示設定
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-    
-    # デザインファイル（静的ファイル）の表示設定
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    # =========================================
+    # プロフィール関連
+    # =========================================
+    path('about/', views.about, name='about'),
+
+    # =========================================
+    # ガクチカ関連
+    # =========================================
+    path('gakuchika/', views.gakuchika_view, name='gakuchika'),
+
+    # =========================================
+    # ブログ関連
+    # =========================================
+    path('blog/', views.PostListView.as_view(), name='post_list'),
+    path('blog/<int:pk>/', views.PostDetailView.as_view(), name='post_detail'),
+
+    # =========================================
+    # メンテナンス用（⚠️セキュリティ対策）
+    # =========================================
+    # データベースの強制更新URLは、誰かに悪用されるのを防ぐため、
+    # 役目を終えたら先頭に「#」をつけてコメントアウト（無効化）しておきます。
+    # また必要になった時だけ「#」を外せばOKです！
+    # path('force-migrate-secret/', views.force_migrate, name='force_migrate'),
+]
