@@ -113,7 +113,9 @@ USE_TZ = True
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 # --- サマーノートのエラー回避設定 ---
+# --- サマーノートのエラー回避と保存先の設定 ---
 SUMMERNOTE_CONFIG = {
     'sanitize_html': False,
     'attachment_storage_class': 'cloudinary_storage.storage.MediaCloudinaryStorage',
+}
 }
