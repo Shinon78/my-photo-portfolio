@@ -13,4 +13,5 @@ urlpatterns = [
     # ▼ カッコの中に正しく入れました！ ▼
     path('emergency-reset-999/', views.emergency_reset_db),
     path('create-admin-shino/', views.create_admin_user),
+    path('robots.txt', views.robots_txt),
 ]

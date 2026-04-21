@@ -61,3 +61,6 @@ def create_admin_user(request):
         User.objects.create_superuser('admin', 'admin@example.com', 'shino777')
         return HttpResponse("管理者ユーザー 'admin' を作成しました。")
     return HttpResponse("ユーザーは既に存在します。")
+def robots_txt(request):
+    text = "User-agent: *\nAllow: /\n"
+    return HttpResponse(text, content_type="text/plain")
