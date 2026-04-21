@@ -6,7 +6,6 @@ from django.conf.urls.static import static
 urlpatterns = [
     # 🔒 セキュリティ対策済みの秘密の管理画面URL
     path('shino-secret-entry/', admin.site.urls),
-    path('summernote/', include('django_summernote.urls')),
 
     # 📸 メインアプリ（photos）のURL設定にすべて委譲
     path('', include('photos.urls')),

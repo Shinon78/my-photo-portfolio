@@ -11,7 +11,6 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # --- DEBUG設定 ---
 DEBUG = True
 
-# --- セキュリティとホスト設定 (Render対応) ---
 ALLOWED_HOSTS = [
     'my-photo-portfolio.onrender.com',
     'localhost',
@@ -31,7 +30,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'photos',
-    'django_summernote',
+    # django_summernote は完全に削除
 ]
 
 MIDDLEWARE = [
@@ -111,22 +110,3 @@ USE_I18N = True
 USE_TZ = True
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 X_FRAME_OPTIONS = 'SAMEORIGIN'
-
-# ==========================================
-# サマーノート & セキュリティ (Bleach) 設定
-# ==========================================
-SUMMERNOTE_CONFIG = {
-    'sanitize_html': False,
-    'attachment_storage_class': 'cloudinary_storage.storage.MediaCloudinaryStorage',
-    
-    # ▼ サマーノートが直接読み込む「消毒の例外ルール」
-    'bleach_tags': [
-        'p', 'b', 'i', 'strike', 'ul', 'li', 'ol', 'br',
-        'span', 'blockquote', 'hr', 'a', 'img', 'div', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'style'
-    ],
-    'bleach_attributes': {
-        '*': ['class', 'style'],
-        'a': ['href', 'title', 'target'],
-        'img': ['src', 'alt', 'width', 'height'], # ← これがURLを削らせないための絶対防壁！
-    },
-}
