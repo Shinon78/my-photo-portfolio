@@ -33,3 +33,15 @@ def force_migrate(request):
         return HttpResponse("<h1>大成功！サマーノートの準備が完了しました！</h1><p>管理画面に戻ってブログを保存してください。</p>")
     except Exception as e:
         return HttpResponse(f"<h1>エラーが発生しました</h1><p>{e}</p>")
+
+from django.db import connection
+from django.http import HttpResponse
+
+def emergency_reset_db(request):
+    # ⚠️ これは緊急時専用です！
+    with connection.cursor() as cursor:
+        # 古いテーブルを跡形もなく消し去ります
+        cursor.execute("DROP TABLE IF EXISTS photos_post CASCADE;")
+        cursor.execute("DROP TABLE IF EXISTS photos_photopost CASCADE;")
+        cursor.execute("DROP TABLE IF EXISTS django_migrations CASCADE;")
+    return HttpResponse("データベースのリセットが完了しました。もう一度デプロイしてください。")

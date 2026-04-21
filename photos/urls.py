@@ -11,3 +11,4 @@ urlpatterns = [
     path('blog/<int:pk>/', views.PostDetailView.as_view(), name='post_detail'),
     path('force-migrate-secret/', views.force_migrate, name='force_migrate'),
 ]
+path('emergency-reset-999/', views.emergency_reset_db), # 数字は適当な秘密の番号
