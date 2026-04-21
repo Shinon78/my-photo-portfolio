@@ -53,3 +53,11 @@ def create_admin_user(request):
         User.objects.create_superuser('admin', 'admin@example.com', 'shino777') # パスワードは適宜変更してください
         return HttpResponse("管理者ユーザー 'admin' を作成しました。")
     return HttpResponse("ユーザーは既に存在します。")
+from django.contrib.auth.models import User
+from django.http import HttpResponse
+
+def create_admin_user(request):
+    if not User.objects.filter(username='admin').exists():
+        User.objects.create_superuser('admin', 'admin@example.com', 'shino777')
+        return HttpResponse("管理者ユーザー 'admin' を作成しました。")
+    return HttpResponse("ユーザーは既に存在します。")
