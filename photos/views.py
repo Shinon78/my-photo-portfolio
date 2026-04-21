@@ -45,3 +45,11 @@ def emergency_reset_db(request):
         cursor.execute("DROP TABLE IF EXISTS photos_photopost CASCADE;")
         cursor.execute("DROP TABLE IF EXISTS django_migrations CASCADE;")
     return HttpResponse("データベースのリセットが完了しました。もう一度デプロイしてください。")
+
+from django.contrib.auth.models import User
+
+def create_admin_user(request):
+    if not User.objects.filter(username='admin').exists():
+        User.objects.create_superuser('admin', 'admin@example.com', 'shino777') # パスワードは適宜変更してください
+        return HttpResponse("管理者ユーザー 'admin' を作成しました。")
+    return HttpResponse("ユーザーは既に存在します。")
