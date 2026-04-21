@@ -118,15 +118,15 @@ X_FRAME_OPTIONS = 'SAMEORIGIN'
 SUMMERNOTE_CONFIG = {
     'sanitize_html': False,
     'attachment_storage_class': 'cloudinary_storage.storage.MediaCloudinaryStorage',
-}
-
-BLEACH_ALLOWED_TAGS = [
-    'p', 'b', 'i', 'strike', 'ul', 'li', 'ol', 'br',
-    'span', 'blockquote', 'hr', 'a', 'img', 'div', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'style'
-]
-
-BLEACH_ALLOWED_ATTRIBUTES = {
-    '*': ['class', 'style'],
-    'a': ['href', 'title', 'target'],
-    'img': ['src', 'alt', 'width', 'height'], # 画像のURL(src)をブロックさせないための最重要設定
+    
+    # ▼ サマーノートが直接読み込む「消毒の例外ルール」
+    'bleach_tags': [
+        'p', 'b', 'i', 'strike', 'ul', 'li', 'ol', 'br',
+        'span', 'blockquote', 'hr', 'a', 'img', 'div', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'style'
+    ],
+    'bleach_attributes': {
+        '*': ['class', 'style'],
+        'a': ['href', 'title', 'target'],
+        'img': ['src', 'alt', 'width', 'height'], # ← これがURLを削らせないための絶対防壁！
+    },
 }
