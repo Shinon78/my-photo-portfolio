@@ -39,4 +39,49 @@
         {% endfor %}
     </div>
 
-    {%
+    {% if is_paginated %}
+    <div class="row mt-5">
+        <div class="col-12 d-flex justify-content-center">
+            <nav aria-label="Page navigation">
+                <ul class="pagination pagination-sm">
+                    {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link text-dark" href="?page={{ page_obj.previous_page_number }}">前へ</a>
+                    </li>
+                    {% endif %}
+                    
+                    <li class="page-item disabled">
+                        <span class="page-link bg-light text-dark">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+                    </li>
+                    
+                    {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link text-dark" href="?page={{ page_obj.next_page_number }}">次へ</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<style>
+    .custom-hover-card {
+        border-radius: 8px; /* カード全体の角丸 */
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .custom-hover-card:hover {
+        transform: translateY(-5px); /* 上にフワッと浮く */
+        box-shadow: 0 0.8rem 1.5rem rgba(0,0,0,0.1) !important; /* 影を柔らかく広げる */
+    }
+    
+    /* ギャラリー風の追加演出：画像にマウスを乗せた時に少しズームする */
+    .custom-hover-card img {
+        transition: transform 0.5s ease;
+    }
+    .custom-hover-card:hover img {
+        transform: scale(1.05);
+    }
+</style>
+{% endblock %}
