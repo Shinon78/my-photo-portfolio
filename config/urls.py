@@ -9,6 +9,7 @@ urlpatterns = [
 
     # 📸 メインアプリ（photos）のURL設定にすべて委譲
     path('', include('photos.urls')),
+    path('tinymce/', include('tinymce.urls')),
 ]
 
 if settings.DEBUG:

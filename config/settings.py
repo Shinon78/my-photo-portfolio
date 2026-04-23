@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'photos',
+    'tinymce'
     # django_summernote は完全に削除
 ]
 
@@ -123,3 +124,10 @@ USE_I18N = True
 USE_TZ = True
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 X_FRAME_OPTIONS = 'SAMEORIGIN'
+# --- TinyMCE（リッチエディタ）のカスタマイズ設定 ---
+TINYMCE_DEFAULT_CONFIG = {
+    'width': '100%',
+    'height': 500, # 入力欄の高さを少し広げます
+    'plugins': 'image link lists', # 画像、リンク、リストの機能を有効化
+    'toolbar': 'undo redo | formatselect | bold italic | alignleft aligncenter alignright | bullist numlist | link image', # ツールバーの並び順
+}
