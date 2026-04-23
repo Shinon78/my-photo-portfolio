@@ -10,7 +10,6 @@
     
     <link rel="stylesheet" href="{% static 'style.css' %}?v=2">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet">
 
     <style>
@@ -20,41 +19,33 @@
             color: #333;
         }
 
-        /* --- サイドバー/Offcanvasの基本設定 --- */
-        #sidebarOffcanvas {
+        /* --- サイドバーの基本設定（スマホ時は上に配置） --- */
+        #sidebar {
             background-color: #1a1a1a;
             color: white;
+            display: flex;
+            flex-direction: column;
             z-index: 1040;
-            border: none;
         }
 
-        /* --- コンテンツの基本設定 --- */
+        /* --- コンテンツの基本設定（スマホ時はサイドバーの下に配置） --- */
         #content {
             width: 100%;
             padding: 40px;
             animation: fadeIn 0.8s ease-in-out;
         }
 
-        /* --- PC用のレイアウト（768px以上） --- */
+        /* --- PC用のレイアウト（画面幅768px以上の場合のみ適用） --- */
         @media (min-width: 768px) {
-            #sidebarOffcanvas {
+            #sidebar {
                 min-width: 280px;
                 max-width: 280px;
                 min-height: 100vh;
-                position: fixed; /* 左側に固定 */
-                /* BootstrapのOffcanvas機能をPCでは無効化して表示し続ける設定 */
-                transform: none !important;
-                visibility: visible !important;
+                position: fixed; /* 左側にガッチリ固定 */
             }
             #content {
-                margin-left: 280px; /* サイドバーの幅分だけ余白を作る */
+                margin-left: 280px; /* サイドバーの幅の分だけ右にずらす */
             }
-        }
-
-        /* スマホ用ヘッダーの微調整 */
-        .mobile-header {
-            background-color: #1a1a1a;
-            border-bottom: 1px solid #333;
         }
 
         @keyframes fadeIn {
@@ -71,3 +62,130 @@
 
         .nav-link:hover {
             color: white;
+            background-color: #333;
+            padding-left: 30px;
+        }
+
+        .profile-title {
+            display: inline-block;
+            border-bottom: 3px double white;
+            padding-bottom: 4px;
+            margin-bottom: 30px;
+            letter-spacing: 0.2rem;
+            font-size: 0.85rem;
+            color: #fff;
+        }
+
+        .site-description {
+            font-size: 0.75rem;
+            color: #aaa;
+            line-height: 1.6;
+            margin-top: 15px;
+            padding: 0 10px;
+            text-align: left;
+        }
+
+        .sidebar-footer {
+            margin-top: auto;
+            padding-bottom: 20px;
+            color: #777;
+            font-size: 0.75rem;
+            line-height: 1.6;
+        }
+
+        /* プレローダー */
+        #loader {
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            top: 0;
+            left: 0;
+            background: #1a1a1a;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            transition: opacity 0.5s ease;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255,255,255,0.1);
+            border-top: 5px solid #fff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loaded {
+            opacity: 0;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="loader">
+        <div class="spinner"></div>
+        <p>Now Loading...</p>
+    </div>
+    
+    <script>
+        window.addEventListener('load', function() {
+            const loader = document.getElementById('loader');
+            loader.classList.add('loaded');
+        });
+    </script>
+
+    <div class="d-flex flex-column flex-md-row">
+        <nav id="sidebar" class="p-4 text-center">
+            <h4 class="mb-5 mt-3 fw-bold" style="letter-spacing: 0.1rem;">Shinon's Photo Portfolio</h4>
+            
+            <div class="mt-4">
+                <span class="profile-title">PROFILE</span>
+            </div>
+
+            <h5 class="mb-1 fw-bold">Shinon</h5>
+            <p class="small mb-2" style="color: #888; letter-spacing: 0.05rem;">Engineer & Photographer</p>
+            
+            <div class="site-description">
+                <p>工学部大学生が自らWebページを構築。愛機 Nikon D3100 で切り取った景色を投稿しています。</p>
+            </div>
+
+            <ul class="nav flex-column text-start mt-5">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'photos:index' %}">GALLERY</a>
+                </li>
+            
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'photos:post_list' %}">BLOG</a>
+                </li>
+            
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'photos:about' %}">ABOUT ME</a>
+                </li>
+            </ul>
+
+            <div class="sidebar-footer">
+                <p>
+                    &copy; 2026 Shinon<br>
+                    All rights reserved.<br>
+                    当サイト内の文章・画像の<br>無断転載禁止
+                </p>
+            </div>
+        </nav>
+
+        <div id="content">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </div>
+</body>
+</html>
