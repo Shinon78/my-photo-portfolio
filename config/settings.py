@@ -131,3 +131,7 @@ TINYMCE_DEFAULT_CONFIG = {
     'plugins': 'image link lists', # 画像、リンク、リストの機能を有効化
     'toolbar': 'undo redo | formatselect | bold italic | alignleft aligncenter alignright | bullist numlist | link image', # ツールバーの並び順
 }
+
+# アップロードを許可する最大サイズ（例：10MBにする場合）
+DATA_UPLOAD_MAX_MEMORY_SIZE = 15728640  # 10 * 1024 * 1024
+FILE_UPLOAD_MAX_MEMORY_SIZE = 15728640
