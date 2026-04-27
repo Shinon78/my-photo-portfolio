@@ -1,0 +1,22 @@
+{% extends 'base.html' %} {% block content %}
+<div class="contact-container" style="max-width: 600px; margin: 0 auto; padding: 2rem;">
+    <h2>Contact</h2>
+    <p>当サイトに関するお問い合わせは、以下のフォームよりお願いいたします。</p>
+
+    {% if messages %}
+        <ul class="messages" style="color: green; list-style: none; padding: 0;">
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <form method="POST" action="">
+        {% csrf_token %}
+        
+        {{ form.as_p }}
+        
+        <button type="submit" style="margin-top: 1rem; padding: 0.5rem 2rem;">送信する</button>
+    </form>
+</div>
+{% endblock %}
