@@ -52,13 +52,14 @@ def contact_view(request):
             form.save()
             # 画面に完了メッセージを渡す
             messages.success(request, 'お問い合わせを送信しました。ご連絡ありがとうございます。')
-            # 二重送信を防ぐため、同じページへリダイレクト
-            return redirect('contact')
+            # ▼ 修正箇所：urls.pyのapp_nameに合わせて「photos:contact」に変更 ▼
+            return redirect('photos:contact')
     else:
         # 普通にURLにアクセスしたとき（空のフォームを表示）
         form = InquiryForm()
     
-    return render(request, 'contact.html', {'form': form})
+    # ▼ 修正箇所：フォルダ構成に合わせて「photos/contact.html」に変更 ▼
+    return render(request, 'photos/contact.html', {'form': form})
 
 # ==========================================
 # メンテナンス・緊急リセット用ビュー
