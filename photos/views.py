@@ -92,3 +92,6 @@ def create_admin_user(request):
 def robots_txt(request):
     text = "User-agent: *\nAllow: /\n"
     return HttpResponse(text, content_type="text/plain")
+    
+def privacy_policy(request):
+    return render(request, 'photos/privacy.html')

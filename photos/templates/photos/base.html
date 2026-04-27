@@ -90,6 +90,18 @@
             font-size: 0.75rem;
             line-height: 1.6;
         }
+        
+        /* プライバシーポリシーのリンクを少し控えめにするスタイル */
+        .privacy-link {
+            font-size: 0.7rem;
+            color: #888;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .privacy-link:hover {
+            color: #ddd;
+        }
 
         #loader {
             position: fixed;
@@ -153,8 +165,8 @@
             <h5 class="offcanvas-title fw-bold" id="mobileMenuLabel" style="letter-spacing: 0.1rem;">MENU</h5>
             <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
-        <div class="offcanvas-body p-4">
-            <ul class="nav flex-column text-start mt-3">
+        <div class="offcanvas-body p-4 d-flex flex-column">
+            <ul class="nav flex-column text-start mt-3 mb-auto">
                 <li class="nav-item mb-3">
                     <a class="nav-link fs-5" href="{% url 'photos:index' %}">GALLERY</a>
                 </li>
@@ -168,6 +180,9 @@
                     <a class="nav-link fs-5" href="{% url 'photos:contact' %}">CONTACT</a>
                 </li>
             </ul>
+            <div class="mt-5 pt-4 border-top border-secondary text-center">
+                <a href="{% url 'photos:privacy' %}" class="privacy-link">プライバシーポリシー</a>
+            </div>
         </div>
     </div>
 
@@ -201,8 +216,11 @@
                 </li>
             </ul>
 
-            <div class="sidebar-footer">
-                <p>
+            <div class="sidebar-footer mt-auto">
+                <div class="mb-3">
+                    <a href="{% url 'photos:privacy' %}" class="privacy-link">プライバシーポリシー</a>
+                </div>
+                <p class="m-0">
                     &copy; 2026 Shinon<br>
                     All rights reserved.<br>
                     当サイト内の文章・画像の<br>無断転載禁止

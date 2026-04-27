@@ -10,6 +10,7 @@ urlpatterns = [
     path('about/', views.about, name='about'),
     path('blog/', views.PostListView.as_view(), name='post_list'),
     path('blog/<int:pk>/', views.PostDetailView.as_view(), name='post_detail'),
+    path('privacy/', views.privacy_policy, name='privacy'),
     
     # ▼ ここにお問い合わせフォームのURLを追加しました ▼
     path('contact/', views.contact_view, name='contact'),
