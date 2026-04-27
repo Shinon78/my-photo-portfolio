@@ -8,16 +8,28 @@ load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
 
-# --- DEBUG設定 ---
-DEBUG = True
+# --- 開発・本番の切り替え設定 ---
+# 本番環境では環境変数でFalseに設定することを推奨します
+DEBUG = os.getenv('DEBUG', 'True') == 'True'
 
+# --- 独自ドメインの設定 ---
 ALLOWED_HOSTS = [
+    'shinotech78.com',
+    'www.shinotech78.com',
     'my-photo-portfolio.onrender.com',
     'localhost',
     '127.0.0.1',
 ]
+
+# Renderのプロキシ設定
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-CSRF_TRUSTED_ORIGINS = ['https://my-photo-portfolio.onrender.com']
+
+# CSRF（クロスサイトリクエストフォージェリ）対策の信頼済みドメイン
+CSRF_TRUSTED_ORIGINS = [
+    'https://shinotech78.com',
+    'https://www.shinotech78.com',
+    'https://my-photo-portfolio.onrender.com'
+]
 
 # Application definition
 INSTALLED_APPS = [
@@ -31,7 +43,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'photos',
     'tinymce'
-    # django_summernote は完全に削除
 ]
 
 MIDDLEWARE = [
@@ -64,11 +75,9 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-
-
 # Database
 if os.getenv('DATABASE_URL'):
-    # Render本番環境用（Neon PostgreSQL）
+    # Render本番環境用
     DATABASES = {
         'default': dj_database_url.config(
             default=os.getenv('DATABASE_URL'),
@@ -77,7 +86,7 @@ if os.getenv('DATABASE_URL'):
         )
     }
 else:
-    # 手元のPC（VS Code）用（仮のSQLite）
+    # ローカル環境用
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
@@ -85,14 +94,10 @@ else:
         }
     }
 
-
-# --- 重要：新旧両方のストレージ設定を記述 ---
-
-# 1. 昔のライブラリが探しに来る古い変数名
+# ストレージ設定
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 STATICFILES_STORAGE = 'whitenoise.storage.StaticFilesStorage'
 
-# 2. Django 4.2+ 以降の新しい形式
 STORAGES = {
     "default": {
         "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
@@ -102,14 +107,14 @@ STORAGES = {
     },
 }
 
-# --- Cloudinary接続設定 ---
+# Cloudinary接続設定
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME'),
     'API_KEY': os.getenv('CLOUDINARY_API_KEY'),
     'API_SECRET': os.getenv('CLOUDINARY_API_SECRET'),
 }
 
-# --- パスの設定 ---
+# パスの設定
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
@@ -117,21 +122,22 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-# その他共通設定
+# 共通設定
 LANGUAGE_CODE = 'ja'
 TIME_ZONE = 'Asia/Tokyo'
 USE_I18N = True
 USE_TZ = True
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 X_FRAME_OPTIONS = 'SAMEORIGIN'
-# --- TinyMCE（リッチエディタ）のカスタマイズ設定 ---
+
+# TinyMCE設定
 TINYMCE_DEFAULT_CONFIG = {
     'width': '100%',
-    'height': 500, # 入力欄の高さを少し広げます
-    'plugins': 'image link lists', # 画像、リンク、リストの機能を有効化
-    'toolbar': 'undo redo | formatselect | bold italic | alignleft aligncenter alignright | bullist numlist | link image', # ツールバーの並び順
+    'height': 500,
+    'plugins': 'image link lists',
+    'toolbar': 'undo redo | formatselect | bold italic | alignleft aligncenter alignright | bullist numlist | link image',
 }
 
-# アップロードを許可する最大サイズ（例：10MBにする場合）
-DATA_UPLOAD_MAX_MEMORY_SIZE = 15728640  # 10 * 1024 * 1024
+# アップロード制限
+DATA_UPLOAD_MAX_MEMORY_SIZE = 15728640
 FILE_UPLOAD_MAX_MEMORY_SIZE = 15728640
