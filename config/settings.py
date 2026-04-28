@@ -12,7 +12,6 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = os.getenv('DEBUG', 'True') == 'True'
 
 # --- 独自ドメインの設定 ---
-# 独自ドメインとRenderのデフォルトドメインの両方を許可
 ALLOWED_HOSTS = [
     'shinotech78.com',
     'www.shinotech78.com',
@@ -21,10 +20,10 @@ ALLOWED_HOSTS = [
     '127.0.0.1',
 ]
 
-# Renderのプロキシ設定（HTTPS通信を正しく認識させる）
+# Renderのプロキシ設定
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-# CSRF（クロスサイトリクエストフォージェリ）対策の信頼済みドメイン
+# CSRF対策の信頼済みドメイン
 CSRF_TRUSTED_ORIGINS = [
     'https://shinotech78.com',
     'https://www.shinotech78.com',
@@ -47,7 +46,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware', # 👈 SecurityMiddlewareの直後に配置
+    'whitenoise.middleware.WhiteNoiseMiddleware', # SecurityMiddlewareの直後に配置
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -93,15 +92,10 @@ else:
     }
 
 # --- ストレージ設定の修正 ---
-# 本番環境でCSSファイルを圧縮・バージョン管理し、管理画面の崩れを防ぐ設定に変更
-STORAGES = {
-    "default": {
-        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
-    },
-    "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
-    },
-}
+# Cloudinaryなどのライブラリが古い形式の変数名を直接参照するため、個別に定義します。
+# これにより AttributeError を回避しつつ、WhiteNoiseによるCSS圧縮・キャッシュを有効にします。
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Cloudinary接続設定
 CLOUDINARY_STORAGE = {
@@ -113,7 +107,7 @@ CLOUDINARY_STORAGE = {
 # パスの設定
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
-STATIC_ROOT = BASE_DIR / 'staticfiles' # 👈 collectstaticでファイルが集まる場所
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
