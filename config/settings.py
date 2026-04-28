@@ -91,11 +91,12 @@ else:
         }
     }
 
-# --- ストレージ設定（ハイブリッド版：ここが重要です） ---
+# --- ストレージ設定（ハイブリッド版：修正箇所） ---
 
 # 1. ライブラリ（django-cloudinary-storage）が内部で参照する古い形式の変数名
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+# 👇 WhiteNoiseの圧縮エラーを防ぐため、Django標準に変更
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 
 # 2. Django 5.0以降で実際にメディア・静的ファイルを管理する最新の設定
 STORAGES = {
@@ -103,7 +104,8 @@ STORAGES = {
         "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
     },
     "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
+        # 👇 こちらもDjango標準のストレージに変更
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
     },
 }
 
