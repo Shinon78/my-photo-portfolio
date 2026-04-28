@@ -9,10 +9,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # --- 開発・本番の切り替え設定 ---
-# 本番環境では環境変数でFalseに設定することを推奨します
 DEBUG = os.getenv('DEBUG', 'True') == 'True'
 
 # --- 独自ドメインの設定 ---
+# 独自ドメインとRenderのデフォルトドメインの両方を許可
 ALLOWED_HOSTS = [
     'shinotech78.com',
     'www.shinotech78.com',
@@ -21,7 +21,7 @@ ALLOWED_HOSTS = [
     '127.0.0.1',
 ]
 
-# Renderのプロキシ設定
+# Renderのプロキシ設定（HTTPS通信を正しく認識させる）
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # CSRF（クロスサイトリクエストフォージェリ）対策の信頼済みドメイン
@@ -33,7 +33,7 @@ CSRF_TRUSTED_ORIGINS = [
 
 # Application definition
 INSTALLED_APPS = [
-    'cloudinary_storage', # 必ず一番上
+    'cloudinary_storage', # Cloudinaryをstaticfilesより先に読み込む
     'cloudinary',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -47,7 +47,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware', # 👈 SecurityMiddlewareの直後に配置
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -77,7 +77,6 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 # Database
 if os.getenv('DATABASE_URL'):
-    # Render本番環境用
     DATABASES = {
         'default': dj_database_url.config(
             default=os.getenv('DATABASE_URL'),
@@ -86,7 +85,6 @@ if os.getenv('DATABASE_URL'):
         )
     }
 else:
-    # ローカル環境用
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
@@ -94,16 +92,14 @@ else:
         }
     }
 
-# ストレージ設定
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-STATICFILES_STORAGE = 'whitenoise.storage.StaticFilesStorage'
-
+# --- ストレージ設定の修正 ---
+# 本番環境でCSSファイルを圧縮・バージョン管理し、管理画面の崩れを防ぐ設定に変更
 STORAGES = {
     "default": {
         "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
     },
     "staticfiles": {
-        "BACKEND": "whitenoise.storage.StaticFilesStorage",
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
 
@@ -117,7 +113,7 @@ CLOUDINARY_STORAGE = {
 # パスの設定
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_ROOT = BASE_DIR / 'staticfiles' # 👈 collectstaticでファイルが集まる場所
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
