@@ -92,6 +92,10 @@ def create_admin_user(request):
 def robots_txt(request):
     text = "User-agent: *\nAllow: /\n"
     return HttpResponse(text, content_type="text/plain")
-    
+
 def privacy_policy(request):
     return render(request, 'photos/privacy.html')
+def ads_txt(request):
+    # シノさんのAdSense専用IDが組み込まれた証明テキストです
+    text = "google.com, pub-8285052881088341, DIRECT, f08c47fec0942fa0"
+    return HttpResponse(text, content_type="text/plain")
