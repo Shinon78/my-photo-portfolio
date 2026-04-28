@@ -32,7 +32,7 @@ CSRF_TRUSTED_ORIGINS = [
 
 # Application definition
 INSTALLED_APPS = [
-    'cloudinary_storage',
+    'cloudinary_storage', # Cloudinaryをstaticfilesより先に読み込む
     'cloudinary',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -91,10 +91,21 @@ else:
         }
     }
 
-# --- ストレージ設定の修正（安定版） ---
-# AttributeErrorを回避しつつ、トラブルの少ない圧縮配信設定に変更しました
+# --- ストレージ設定（ハイブリッド版：ここが重要です） ---
+
+# 1. ライブラリ（django-cloudinary-storage）が内部で参照する古い形式の変数名
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+
+# 2. Django 5.0以降で実際にメディア・静的ファイルを管理する最新の設定
+STORAGES = {
+    "default": {
+        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
+    },
+}
 
 # Cloudinary接続設定
 CLOUDINARY_STORAGE = {
