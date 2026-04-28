@@ -32,7 +32,7 @@ CSRF_TRUSTED_ORIGINS = [
 
 # Application definition
 INSTALLED_APPS = [
-    'cloudinary_storage', # Cloudinaryをstaticfilesより先に読み込む
+    'cloudinary_storage',
     'cloudinary',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -91,11 +91,10 @@ else:
         }
     }
 
-# --- ストレージ設定の修正 ---
-# Cloudinaryなどのライブラリが古い形式の変数名を直接参照するため、個別に定義します。
-# これにより AttributeError を回避しつつ、WhiteNoiseによるCSS圧縮・キャッシュを有効にします。
+# --- ストレージ設定の修正（安定版） ---
+# AttributeErrorを回避しつつ、トラブルの少ない圧縮配信設定に変更しました
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
 # Cloudinary接続設定
 CLOUDINARY_STORAGE = {
