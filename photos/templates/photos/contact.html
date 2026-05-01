@@ -1,6 +1,7 @@
 {% extends 'photos/base.html' %}
 
-{% block content %} <div class="contact-container" style="max-width: 600px; margin: 0 auto; padding: 2rem;">
+{% block content %} 
+<div class="contact-container" style="max-width: 600px; margin: 0 auto; padding: 2rem;">
     <h2>Contact</h2>
     <p>当サイトに関するお問い合わせは、以下のフォームよりお願いいたします。</p>
 
@@ -12,6 +13,12 @@
         </ul>
     {% endif %}
 
+    <!-- 👇 ここに追加しました 👇 -->
+    <div class="text-muted small mb-4 p-3 bg-light border rounded">
+        ※営業・セールスや、スパムと判断されるお問い合わせにつきましては、ご返信いたしかねる場合がございます。あらかじめご了承ください。
+    </div>
+    <!-- 👆 ここまで 👆 -->
+
     <form method="POST" action="">
         {% csrf_token %}
         
@@ -20,5 +27,4 @@
         <button type="submit" style="margin-top: 1rem; padding: 0.5rem 2rem;">送信する</button>
     </form>
 </div>
-
 {% endblock %}
