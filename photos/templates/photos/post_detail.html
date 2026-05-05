@@ -15,6 +15,28 @@
     .post-content iframe {
         max-width: 100%;
     }
+
+    /* ▼ 追加：EXIFデータを表示するボックスのスタイル ▼ */
+    .exif-box {
+        background-color: #f8f9fa;
+        border-left: 4px solid #343a40;
+        padding: 1rem 1.5rem;
+        border-radius: 4px;
+    }
+    .exif-item {
+        margin-right: 2rem;
+    }
+    .exif-label {
+        color: #6c757d;
+        font-size: 0.75rem;
+        font-weight: bold;
+        display: block;
+        letter-spacing: 0.05rem;
+    }
+    .exif-value {
+        font-size: 1rem;
+        font-family: 'Helvetica Neue', Arial, sans-serif; /* 少し機械的なフォントに */
+    }
 </style>
 
 <div class="container" style="max-width: 800px;">
@@ -22,14 +44,60 @@
     <h1 class="mb-5 fw-bold">{{ post.title }}</h1>
     
     {% if post.image %}
-    <div class="mb-5 text-center">
+    <div class="mb-4 text-center">
         <img src="{{ post.image.url }}" class="img-fluid rounded shadow-sm">
     </div>
     {% endif %}
 
+    <!-- ▼ 追加：EXIFデータ表示エリア ▼ -->
+    {% if post.camera_model or post.f_stop or post.shutter_speed %}
+    <div class="exif-box d-flex flex-wrap mb-5 shadow-sm">
+        
+        {% if post.camera_model %}
+        <div class="exif-item mb-2">
+            <span class="exif-label">CAMERA</span>
+            <strong class="exif-value">{{ post.camera_model }}</strong>
+        </div>
+        {% endif %}
+        
+        {% if post.focal_length %}
+        <div class="exif-item mb-2">
+            <span class="exif-label">焦点距離</span>
+            <strong class="exif-value">{{ post.focal_length }}</strong>
+        </div>
+        {% endif %}
+
+        {% if post.f_stop %}
+        <div class="exif-item mb-2">
+            <span class="exif-label">F値</span>
+            <strong class="exif-value">{{ post.f_stop }}</strong>
+        </div>
+        {% endif %}
+
+        {% if post.shutter_speed %}
+        <div class="exif-item mb-2">
+            <span class="exif-label">SS</span>
+            <strong class="exif-value">{{ post.shutter_speed }} s</strong>
+        </div>
+        {% endif %}
+
+        {% if post.iso %}
+        <div class="exif-item mb-2">
+            <span class="exif-label">ISO</span>
+            <strong class="exif-value">{{ post.iso }}</strong>
+        </div>
+        {% endif %}
+
+    </div>
+    {% endif %}
+    <!-- ▲ ここまで ▲ -->
+
+    <!-- ※注意：PhotoPostモデルに本文（content）がない場合は何も表示されません -->
+    {% if post.content %}
     <div class="post-content" style="line-height: 2; letter-spacing: 0.05rem;">
         {{ post.content|safe }}
     </div>
+    {% endif %}
 
     <div class="mt-5 pt-5 border-top">
         <a href="{% url 'photos:post_list' %}" class="btn btn-dark">BACK TO LIST</a>
