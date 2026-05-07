@@ -2,15 +2,21 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from django.http import HttpResponse  # 👈 追記1
+from django.http import HttpResponse
 
-# 👈 追記2：Googleのロボットに「全部見てOK」と伝える命令
+# Googleのロボットに「全部見てOK」と伝える命令
 def robots_txt(request):
     content = "User-agent: *\nAllow: /"
     return HttpResponse(content, content_type="text/plain")
 
+# 👈 追記：AdSenseの正当性を証明するコード
+def ads_txt(request):
+    content = "google.com, pub-8285052881088341, DIRECT, f08c47fec0942fa0"
+    return HttpResponse(content, content_type="text/plain")
+
 urlpatterns = [
-    path('robots.txt', robots_txt),  # 👈 追記3：一番上に追加
+    path('robots.txt', robots_txt),
+    path('ads.txt', ads_txt),  # 👈 ここに追加
     
     # 🔒 セキュリティ対策済みの秘密の管理画面URL
     path('shino-secret-entry/', admin.site.urls),
