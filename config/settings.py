@@ -37,16 +37,16 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles', # 👈 これより【下】に移動させます
-    'cloudinary_storage',         # 👈 ここ！
-    'cloudinary',                 # 👈 ここ！
+    'django.contrib.staticfiles',
+    'cloudinary_storage',
+    'cloudinary',
     'photos',
     'tinymce'
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware', # SecurityMiddlewareの直後に配置
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -104,7 +104,6 @@ STORAGES = {
         "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
     },
     "staticfiles": {
-        # 👇 こちらもDjango標準のストレージに変更
         "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
     },
 }
@@ -132,12 +131,16 @@ USE_TZ = True
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 
-# TinyMCE設定
+# --- TinyMCE設定（改良部分） ---
 TINYMCE_DEFAULT_CONFIG = {
     'width': '100%',
     'height': 500,
-    'plugins': 'image link lists',
-    'toolbar': 'undo redo | formatselect | bold italic | alignleft aligncenter alignright | bullist numlist | link image',
+    # pluginsに 'code' と 'codesample' を追加
+    'plugins': 'image link lists code codesample',
+    # toolbarに 'code' と 'codesample' のボタンを追加
+    'toolbar': 'undo redo | formatselect | bold italic | alignleft aligncenter alignright | bullist numlist | link image | code codesample',
+    # メニューバーを表示させ、その中の「表示(view)」等からアクセスできるように設定
+    'menubar': 'file edit view insert format tools table help',
 }
 
 # アップロード制限
