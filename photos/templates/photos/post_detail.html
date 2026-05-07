@@ -1,5 +1,8 @@
 {% extends "photos/base.html" %}
 
+{% block title %}{{ post.title }} | Shinon's Portfolio{% endblock %}
+{% block description %}{{ post.title }} のギャラリー。Nikon D3100で撮影した風景や日常の記録です。{% endblock %}
+
 {% block content %}
 <style>
     .post-content img {
@@ -23,7 +26,7 @@
     
     {% if post.image %}
     <div class="mb-5 text-center">
-        <img src="{{ post.image.url }}" class="img-fluid rounded shadow-sm">
+        <img src="{{ post.image.url }}" alt="{{ post.title }} - 撮影機材: Nikon D3100" class="img-fluid rounded shadow-sm">
     </div>
     {% endif %}
 
