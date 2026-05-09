@@ -79,10 +79,13 @@ def contact_view(request):
 # ==========================================
 
 def force_migrate(request):
+    # ▼ 修正：マイグレーションの衝突を避けるため、SQLで直接viewsカラムを追加する処理に変更
     try:
-        call_command('makemigrations', interactive=False)
-        call_command('migrate', interactive=False)
-        return HttpResponse("<h1>大成功！サマーノートの準備が完了しました！</h1><p>管理画面に戻ってブログを保存してください。</p>")
+        from django.db import connection
+        with connection.cursor() as cursor:
+            # データベースに直接命令して、viewsの箱（整数型、初期値0）を強制追加する
+            cursor.execute("ALTER TABLE photos_post ADD COLUMN IF NOT EXISTS views integer DEFAULT 0;")
+        return HttpResponse("<h1>大成功！viewsカラムを追加しました！</h1><p>サイトのトップページを確認してください。</p>")
     except Exception as e:
         return HttpResponse(f"<h1>エラーが発生しました</h1><p>{e}</p>")
 
