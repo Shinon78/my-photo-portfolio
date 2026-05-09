@@ -60,7 +60,7 @@
 </style>
 
 <div class="mb-5 py-3 border-bottom d-flex justify-content-between align-items-end">
-    <h2 class="gallery-header mb-0">POPULAR BLOG</h2>
+    <h2 class="gallery-header mb-0">現在よく読まれているブログ記事</h2>
     <p class="text-muted small mb-1">Hot Topics</p>
 </div>
 
@@ -90,7 +90,20 @@
                 </p>
                 
                 <div class="d-flex justify-content-between align-items-center mt-auto border-top pt-3">
-                    <small class="text-muted fw-bold"> {{ blog.views }} views</small>
+                    {% if forloop.counter == 1 %}
+                        <small class="fw-bold" style="color: #f1c40f; letter-spacing: 0.05rem; font-size: 1.1rem;">
+                            <i class="bi bi-crown-fill"></i> 第1位
+                        </small>
+                    {% elif forloop.counter == 2 %}
+                        <small class="fw-bold" style="color: #bdc3c7; letter-spacing: 0.05rem; font-size: 1.1rem;">
+                            <i class="bi bi-award-fill"></i> 第2位
+                        </small>
+                    {% elif forloop.counter == 3 %}
+                        <small class="fw-bold" style="color: #cd7f32; letter-spacing: 0.05rem; font-size: 1.1rem;">
+                            <i class="bi bi-award-fill"></i> 第3位
+                        </small>
+                    {% endif %}
+                    
                     <a href="{% url 'photos:post_detail' blog.pk %}" class="btn btn-outline-dark btn-sm px-3 py-1 btn-view">READ</a>
                 </div>
             </div>
