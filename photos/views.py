@@ -42,11 +42,15 @@ class PostDetailView(DetailView):
     model = Post
     template_name = 'photos/post_detail.html'
 
-    # ▼ 追加：ブログ記事が開かれるたびに、閲覧数(views)を1増やす処理
+    # ▼ 追加：ブログ記事が開かれるたびに、閲覧数(views)を増やす処理
     def get_object(self, queryset=None):
         obj = super().get_object(queryset=queryset)
-        obj.views += 1
-        obj.save(update_fields=['views'])
+        
+        # ▼ 修正：アクセスした人が「管理者（スタッフ）」ではない場合のみカウントする ▼
+        if not self.request.user.is_staff:
+            obj.views += 1
+            obj.save(update_fields=['views'])
+            
         return obj
 
 # ==========================================
