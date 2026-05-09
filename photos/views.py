@@ -16,7 +16,13 @@ from .forms import InquiryForm
 
 def index(request):
     posts = PhotoPost.objects.all().order_by('-created_at')
-    return render(request, 'photos/index.html', {'posts': posts})
+    # ▼ 追加：人気記事（ブログ）を閲覧数順に3件取得
+    popular_posts = Post.objects.order_by('-views')[:3]
+    
+    return render(request, 'photos/index.html', {
+        'posts': posts,
+        'popular_posts': popular_posts, # ▼ トップページに人気記事のデータを渡す
+    })
 
 def detail(request, pk):
     post = get_object_or_404(PhotoPost, pk=pk)
@@ -29,12 +35,19 @@ class PostListView(ListView):
     model = Post
     template_name = 'photos/post_list.html'
     context_object_name = 'posts'
-    paginate_by = 5
+    # paginate_by = 5  👈 修正：ページ分割を解除し、全記事を1ページに表示するようにしました
     ordering = ['-created_at']
 
 class PostDetailView(DetailView):
     model = Post
     template_name = 'photos/post_detail.html'
+
+    # ▼ 追加：ブログ記事が開かれるたびに、閲覧数(views)を1増やす処理
+    def get_object(self, queryset=None):
+        obj = super().get_object(queryset=queryset)
+        obj.views += 1
+        obj.save(update_fields=['views'])
+        return obj
 
 # ==========================================
 # お問い合わせフォーム用ビュー
@@ -95,6 +108,7 @@ def robots_txt(request):
 
 def privacy_policy(request):
     return render(request, 'photos/privacy.html')
+
 def ads_txt(request):
     # シノさんのAdSense専用IDが組み込まれた証明テキストです
     text = "google.com, pub-8285052881088341, DIRECT, f08c47fec0942fa0"

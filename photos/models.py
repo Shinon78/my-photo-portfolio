@@ -20,6 +20,9 @@ class Post(models.Model):
     # TinyMCEを使用したリッチテキスト本文
     content = HTMLField("本文")
     
+    # ▼ 追加：人気記事表示のための閲覧数カウント
+    views = models.PositiveIntegerField("閲覧数", default=0)
+    
     created_at = models.DateTimeField("投稿日", auto_now_add=True)
 
     def __str__(self):
