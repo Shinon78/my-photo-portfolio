@@ -38,16 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.sites',     # 追加：サイトマップやドメイン管理に必須
-    'django.contrib.sitemaps',  # 追加：サイトマップ自動生成機能本体
     'cloudinary_storage',
     'cloudinary',
     'photos',
     'tinymce'
 ]
-
-# サイトIDの設定（django.contrib.sitesを利用するために必須）
-SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -97,13 +92,9 @@ else:
     }
 
 # --- ストレージ設定（ハイブリッド版：修正箇所） ---
-
-# 1. ライブラリ（django-cloudinary-storage）が内部で参照する古い形式の変数名
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-# 👇 WhiteNoiseの圧縮エラーを防ぐため、Django標準に変更
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 
-# 2. Django 5.0以降で実際にメディア・静的ファイルを管理する最新の設定
 STORAGES = {
     "default": {
         "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
@@ -136,17 +127,13 @@ USE_TZ = True
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 
-# --- TinyMCE設定（改良部分） ---
+# --- TinyMCE設定 ---
 TINYMCE_DEFAULT_CONFIG = {
     'width': '100%',
     'height': 500,
-    # pluginsに 'code' と 'codesample' を追加
     'plugins': 'image link lists code codesample',
-    # toolbarに 'code' と 'codesample' のボタンを追加
     'toolbar': 'undo redo | formatselect | bold italic | alignleft aligncenter alignright | bullist numlist | link image | code codesample',
-    # メニューバーを表示させ、その中の「表示(view)」等からアクセスできるように設定
     'menubar': 'file edit view insert format tools table help',
-    # ▼ scriptタグが自動削除されるのを防ぐための許可設定を追加
     'extended_valid_elements': 'script[type|src|charset]',
     'valid_children': '+body[script],+div[script]',
 }
