@@ -1,12 +1,24 @@
 from django.contrib.sitemaps import Sitemap
-from .models import Blog
+from .models import Post, PhotoPost
 
-class BlogSitemap(Sitemap):
-    changefreq = "weekly"  # 更新頻度の目安
-    priority = 0.8        # 優先度（0.0〜1.0）
+# ブログ記事（Post）用のサイトマップ
+class PostSitemap(Sitemap):
+    changefreq = "weekly"  # 更新頻度（週1回程度）
+    priority = 0.8         # 優先度
 
     def items(self):
-        return Blog.objects.all()
+        return Post.objects.all()
 
     def lastmod(self, obj):
-        return obj.updated_at  # モデルに更新日フィールドがある場合
+        return obj.updated_at
+
+# ギャラリー写真（PhotoPost）用のサイトマップ
+class PhotoPostSitemap(Sitemap):
+    changefreq = "monthly"  # 更新頻度（月1回程度）
+    priority = 0.6          # ブログより少し優先度を下げる
+
+    def items(self):
+        return PhotoPost.objects.all()
+
+    def lastmod(self, obj):
+        return obj.updated_at
