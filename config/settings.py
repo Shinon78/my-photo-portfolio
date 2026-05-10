@@ -38,11 +38,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',     # 追加：サイトマップやドメイン管理に必須
+    'django.contrib.sitemaps',  # 追加：サイトマップ自動生成機能本体
     'cloudinary_storage',
     'cloudinary',
     'photos',
     'tinymce'
 ]
+
+# サイトIDの設定（django.contrib.sitesを利用するために必須）
+SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
