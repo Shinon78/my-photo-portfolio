@@ -35,7 +35,7 @@ class PostListView(ListView):
     model = Post
     template_name = 'photos/post_list.html'
     context_object_name = 'posts'
-    # paginate_by = 5  👈 修正：ページ分割を解除し、全記事を1ページに表示するようにしました
+    paginate_by = 6  # 👈 修正：コメントアウトを解除し、1ページに6件表示するように設定
     ordering = ['-created_at']
 
 class PostDetailView(DetailView):
