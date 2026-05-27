@@ -33,7 +33,10 @@
       "url" : "https://shinotech78.com/"
     }
     </script>
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
     <link rel="stylesheet" href="{% static 'style.css' %}?v=2">
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -129,6 +132,16 @@
             color: #ddd;
         }
 
+        /* ▼ 追加：Instagramアイコンのホバーアクション ▼ */
+        .custom-insta-link {
+            transition: color 0.3s ease, transform 0.3s ease;
+            display: inline-block;
+        }
+        .custom-insta-link:hover {
+            color: #E1306C !important;
+            transform: scale(1.1);
+        }
+
         #loader {
             position: fixed;
             width: 100vw;
@@ -206,6 +219,13 @@
                     <a class="nav-link fs-5" href="{% url 'photos:contact' %}">CONTACT</a>
                 </li>
             </ul>
+            
+            <div class="mt-4 text-center">
+                <a href="https://www.instagram.com/shinotech78?utm_source=qr" target="_blank" rel="noopener noreferrer" class="text-white text-decoration-none fs-3 custom-insta-link">
+                    <i class="bi bi-instagram"></i>
+                </a>
+            </div>
+            
             <div class="mt-5 pt-4 border-top border-secondary text-center">
                 <a href="{% url 'photos:privacy' %}" class="privacy-link">プライバシーポリシー</a>
             </div>
@@ -225,6 +245,12 @@
             
             <div class="site-description">
                 <p>一眼レフカメラNikon D3100 で切り取った景色を投稿・サバゲーやwebサイト、カメラに関するブログ記事も書いています。</p>
+            </div>
+
+            <div class="mt-4">
+                <a href="https://www.instagram.com/shinotech78?utm_source=qr" target="_blank" rel="noopener noreferrer" class="text-white text-decoration-none fs-4 custom-insta-link">
+                    <i class="bi bi-instagram"></i>
+                </a>
             </div>
 
             <ul class="nav flex-column text-start mt-5">
