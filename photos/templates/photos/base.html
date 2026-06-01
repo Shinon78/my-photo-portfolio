@@ -134,14 +134,28 @@
             color: #ddd;
         }
 
-        /* Instagramアイコンのホバーアクション */
+        /* ▼修正：Instagramアイコンと文字のボタン風スタイル▼ */
         .custom-insta-link {
-            transition: color 0.3s ease, transform 0.3s ease;
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 8px 16px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            color: #fff;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.9rem; /* アイコンの横の文字サイズ */
         }
         .custom-insta-link:hover {
-            color: #E1306C !important;
-            transform: scale(1.1);
+            color: #fff !important;
+            background-color: #E1306C;
+            border-color: #E1306C;
+            transform: scale(1.05);
+        }
+        .custom-insta-link i {
+            font-size: 1.2rem; /* アイコン自体のサイズ */
         }
 
         #loader {
@@ -223,8 +237,9 @@
             </ul>
             
             <div class="mt-4 text-center">
-                <a href="https://www.instagram.com/shinotech78?utm_source=qr" target="_blank" rel="noopener noreferrer" class="text-white text-decoration-none fs-3 custom-insta-link">
+                <a href="https://www.instagram.com/shinotech78?utm_source=qr" target="_blank" rel="noopener noreferrer" class="custom-insta-link">
                     <i class="bi bi-instagram"></i>
+                    <span>Instagramはこちら</span>
                 </a>
             </div>
             
@@ -250,8 +265,9 @@
             </div>
 
             <div class="mt-4">
-                <a href="https://www.instagram.com/shinotech78?utm_source=qr" target="_blank" rel="noopener noreferrer" class="text-white text-decoration-none fs-4 custom-insta-link">
+                <a href="https://www.instagram.com/shinotech78?utm_source=qr" target="_blank" rel="noopener noreferrer" class="custom-insta-link">
                     <i class="bi bi-instagram"></i>
+                    <span>Instagram</span>
                 </a>
             </div>
 
