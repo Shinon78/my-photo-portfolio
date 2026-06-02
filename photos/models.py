@@ -1,5 +1,6 @@
 from django.db import models
 from tinymce.models import HTMLField
+from taggit.managers import TaggableManager # 👈 変更点1：taggitモジュールを読み込む
 
 class PhotoPost(models.Model):
     title = models.CharField("タイトル", max_length=100)
@@ -22,6 +23,9 @@ class Post(models.Model):
     
     # 人気記事表示のための閲覧数カウント
     views = models.PositiveIntegerField("閲覧数", default=0)
+    
+    # 👈 変更点2：ブログ記事にタグ機能を追加（複数設定可能、空欄も許可）
+    tags = TaggableManager("タグ", blank=True)
     
     created_at = models.DateTimeField("投稿日", auto_now_add=True)
 

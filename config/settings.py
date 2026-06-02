@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'cloudinary_storage',
     'cloudinary',
     'photos',
-    'tinymce'
+    'tinymce',
+    'taggit',
 ]
 
 MIDDLEWARE = [

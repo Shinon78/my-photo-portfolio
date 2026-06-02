@@ -8,11 +8,15 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('photo/<int:pk>/', views.detail, name='detail'),
     path('about/', views.about, name='about'),
+    
+    # ▼ ブログ関連のURLをまとめました ▼
     path('blog/', views.PostListView.as_view(), name='post_list'),
+    path('blog/tag/<str:tag_name>/', views.PostListView.as_view(), name='post_list_by_tag'),
     path('blog/<int:pk>/', views.PostDetailView.as_view(), name='post_detail'),
+    
     path('privacy/', views.privacy_policy, name='privacy'),
     
-    # ▼ ここにお問い合わせフォームのURLを追加しました ▼
+    # お問い合わせフォーム
     path('contact/', views.contact_view, name='contact'),
 
     # システム管理・メンテナンス用の裏口URL

@@ -5,6 +5,7 @@ from django.core.management import call_command
 from django.http import HttpResponse
 from django.db import connection
 from django.contrib.auth.models import User
+from taggit.models import Tag # 👈 変更点：Tagモデルをインポート
 
 # モデルとフォームのインポート
 from .models import PhotoPost, Post
@@ -31,12 +32,32 @@ def detail(request, pk):
 def about(request):
     return render(request, 'photos/about.html')
 
+# 👇変更点：PostListViewを大きく書き換え、タグ絞り込み機能を追加しました👇
 class PostListView(ListView):
     model = Post
     template_name = 'photos/post_list.html'
     context_object_name = 'posts'
-    paginate_by = 6  # 👈 修正：コメントアウトを解除し、1ページに6件表示するように設定
-    ordering = ['-created_at']
+    paginate_by = 6  # 1ページに6件表示
+
+    def get_queryset(self):
+        # 基本は全件を新しい順に取得
+        queryset = Post.objects.all().order_by('-created_at')
+        
+        # URLから「タグの名前」が渡されていれば、そのタグを持つ記事だけで絞り込む
+        tag_name = self.kwargs.get('tag_name')
+        if tag_name:
+            queryset = queryset.filter(tags__name=tag_name)
+            
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # 画面にボタンを並べるため、登録されているすべてのタグを渡す
+        context['all_tags'] = Tag.objects.all()
+        # 現在選択されているタグの名前を渡す（押されているボタンを黒くするため）
+        context['current_tag'] = self.kwargs.get('tag_name')
+        return context
+# 👆変更点ここまで👆
 
 class PostDetailView(DetailView):
     model = Post
