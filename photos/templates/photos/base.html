@@ -22,6 +22,7 @@
     <title>{% block title %}Shinotech78 | 理系大学生がwebサイトを自作してみた。{% endblock %}</title>
 
     {% block extra_head %}{% endblock %}
+    
     <link rel="icon" type="image/png" sizes="192x192" href="{% static 'favicon.png' %}">
     
     <meta property="og:site_name" content="Shinotech78">
@@ -70,8 +71,10 @@
             #sidebar {
                 min-width: 280px;
                 max-width: 280px;
-                min-height: 100vh;
+                /* ▼ 修正：min-heightをheightに変更し、縦スクロールを許可 ▼ */
+                height: 100vh;
                 position: fixed;
+                overflow-y: auto;
             }
             #content {
                 margin-left: 280px;
@@ -123,7 +126,6 @@
             line-height: 1.6;
         }
         
-        /* プライバシーポリシーのリンクを少し控えめにするスタイル */
         .privacy-link {
             font-size: 0.7rem;
             color: #888;
@@ -135,7 +137,6 @@
             color: #ddd;
         }
 
-        /* ▼修正：Instagramアイコンと文字のボタン風スタイル▼ */
         .custom-insta-link {
             display: inline-flex;
             align-items: center;
@@ -147,17 +148,35 @@
             color: #fff;
             text-decoration: none;
             transition: all 0.3s ease;
-            font-size: 0.9rem; /* アイコンの横の文字サイズ */
+            font-size: 0.9rem;
         }
+        
         .custom-insta-link:hover {
             color: #fff !important;
             background-color: #E1306C;
             border-color: #E1306C;
             transform: scale(1.05);
         }
+        
         .custom-insta-link i {
-            font-size: 1.2rem; /* アイコン自体のサイズ */
+            font-size: 1.2rem;
         }
+
+        /* ▼ 追加：サイドバーのスクロールバーをスタイリッシュにする ▼ */
+        #sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+        #sidebar::-webkit-scrollbar-track {
+            background: #1a1a1a; 
+        }
+        #sidebar::-webkit-scrollbar-thumb {
+            background: #444; 
+            border-radius: 10px; 
+        }
+        #sidebar::-webkit-scrollbar-thumb:hover {
+            background: #666; 
+        }
+        /* ▲ 追加ここまで ▲ */
 
         #loader {
             position: fixed;
