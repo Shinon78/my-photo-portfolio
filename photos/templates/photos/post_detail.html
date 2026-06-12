@@ -5,6 +5,13 @@
 
 {% block content %}
 <style>
+    /* ▼ PC・スマホ共通のベース設定 ▼ */
+    .post-content {
+        font-size: 1.1rem; /* PCでは少し大きめでゆったりと */
+        line-height: 2;
+        letter-spacing: 0.05rem;
+    }
+
     .post-content img {
         max-width: 100% !important;  /* スマホで見ても画面からはみ出さない */
         height: auto !important;
@@ -18,11 +25,34 @@
     .post-content iframe {
         max-width: 100%;
     }
+
+    /* ▼ スマホ閲覧時（画面幅768px以下）専用の文字サイズ調整 ▼ */
+    @media (max-width: 768px) {
+        .post-title {
+            font-size: 1.5rem !important; /* 記事のメインタイトルをスマホサイズに */
+            margin-bottom: 2rem !important;
+        }
+        .post-content {
+            font-size: 15px !important; /* 本文を一般的なブログサイズ（15px）に縮小！ */
+            line-height: 1.8 !important; /* スマホでは行間を少し詰めた方が目が疲れにくい */
+            letter-spacing: 0.03rem !important;
+        }
+        .post-content h2 {
+            font-size: 1.3rem !important; /* 見出し（大）も合わせて縮小 */
+            margin-top: 2.5rem !important;
+            margin-bottom: 1rem !important;
+        }
+        .post-content h3 {
+            font-size: 1.15rem !important; /* 見出し（中）も縮小 */
+            margin-top: 2rem !important;
+            margin-bottom: 1rem !important;
+        }
+    }
 </style>
 
 <div class="container" style="max-width: 800px;">
     <p class="text-muted">{{ post.created_at|date:"Y.m.d" }}</p>
-    <h1 class="mb-5 fw-bold">{{ post.title }}</h1>
+    <h1 class="post-title mb-5 fw-bold">{{ post.title }}</h1>
     
     {% if post.image %}
     <div class="mb-5 text-center">
@@ -30,7 +60,7 @@
     </div>
     {% endif %}
 
-    <div class="post-content" style="line-height: 2; letter-spacing: 0.05rem;">
+    <div class="post-content">
         {{ post.content|safe }}
     </div>
 
