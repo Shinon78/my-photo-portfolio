@@ -1,1 +1,1 @@
-web: gunicorn config.wsgi
+web: gunicorn config.wsgi:application --workers 2 --threads 2 --max-requests 500 --max-requests-jitter 50
