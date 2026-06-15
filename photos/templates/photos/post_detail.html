@@ -1,6 +1,5 @@
 {% extends "photos/base.html" %}
-
-{% block title %}{{ post.title }} | Shinon's Portfolio{% endblock %}
+{% load markdown_tags %} {% block title %}{{ post.title }} | Shinon's Portfolio{% endblock %}
 {% block description %}{{ post.title }} のギャラリー。Nikon D3100で撮影した風景や日常の記録です。{% endblock %}
 
 {% block content %}
@@ -61,7 +60,7 @@
     {% endif %}
 
     <div class="post-content">
-        {{ post.content|safe }}
+        {{ post.content|markdown_to_html }}
     </div>
 
     <div class="mt-5 pt-5 border-top">
