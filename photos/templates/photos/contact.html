@@ -1,30 +1,104 @@
 {% extends 'photos/base.html' %}
 
-{% block content %} 
-<div class="contact-container" style="max-width: 600px; margin: 0 auto; padding: 2rem;">
-    <h2>Contact</h2>
-    <p>当サイトに関するお問い合わせは、以下のフォームよりお願いいたします。</p>
+{% block content %}
+<style>
+    /* 1. 見出しの装飾（ABOUT MEやGALLERYと統一） */
+    .contact-header {
+        letter-spacing: 0.4rem;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        font-weight: 700;
+        color: #555;
+        margin-bottom: 0;
+    }
 
-    {% if messages %}
-        <ul class="messages" style="color: green; list-style: none; padding: 0;">
-            {% for message in messages %}
-            <li>{{ message }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
+    /* 2. フォーム入力欄のモダン化（Bootstrap風の見た目に上書き） */
+    .contact-form input[type="text"],
+    .contact-form input[type="email"],
+    .contact-form textarea {
+        width: 100%;
+        padding: 0.8rem 1.2rem;
+        margin-top: 0.4rem;
+        margin-bottom: 1.5rem;
+        border: 1px solid #ced4da;
+        border-radius: 8px;
+        background-color: #fcfcfc;
+        transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    }
 
-    <!-- 👇 ここに追加しました 👇 -->
-    <div class="text-muted small mb-4 p-3 bg-light border rounded">
-        ※営業・セールスや、スパムと判断されるお問い合わせにつきましては、ご返信いたしかねる場合がございます。あらかじめご了承ください。
+    /* 入力中のフォーカス時の青い光彩 */
+    .contact-form input:focus,
+    .contact-form textarea:focus {
+        border-color: #86b7fe;
+        outline: 0;
+        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+        background-color: #fff;
+    }
+
+    /* ラベル（お名前：など）の装飾 */
+    .contact-form label {
+        font-weight: 600;
+        color: #444;
+        font-size: 0.95rem;
+        letter-spacing: 0.05rem;
+    }
+
+    /* 3. 送信ボタンの装飾（GALLERYのボタンと統一） */
+    .btn-submit {
+        background-color: #212529;
+        color: #fff;
+        border: none;
+        border-radius: 30px;
+        padding: 0.8rem 3rem;
+        letter-spacing: 0.15rem;
+        transition: all 0.3s ease;
+        font-weight: bold;
+        width: 100%;
+        margin-top: 1rem;
+    }
+
+    .btn-submit:hover {
+        background-color: #444;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+</style>
+
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-7">
+        
+        <div class="mb-5 py-3 border-bottom d-flex justify-content-between align-items-end">
+            <h2 class="contact-header">CONTACT</h2>
+            <p class="text-muted small mb-1">Inquiry Form</p>
+        </div>
+
+        <p class="mb-4 text-muted" style="line-height: 1.8;">当サイトに関するお問い合わせは、以下のフォームよりお願いいたします。</p>
+
+        {% if messages %}
+            <div class="alert alert-success rounded-3 shadow-sm mb-4">
+                <ul class="mb-0 ps-3" style="color: #0f5132;">
+                    {% for message in messages %}
+                    <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+        <div class="text-muted small mb-5 p-3 bg-light border-start border-4 border-secondary rounded-end shadow-sm">
+            ※営業・セールスや、スパムと判断されるお問い合わせにつきましては、ご返信いたしかねる場合がございます。あらかじめご了承ください。
+        </div>
+
+        <div class="contact-form p-4 p-md-5 bg-white shadow-sm rounded-4 border-0">
+            <form method="POST" action="">
+                {% csrf_token %}
+                
+                {{ form.as_p }}
+                
+                <div class="text-center mt-2">
+                    <button type="submit" class="btn-submit">送信する</button>
+                </div>
+            </form>
+        </div>
+
     </div>
-    <!-- 👆 ここまで 👆 -->
-
-    <form method="POST" action="">
-        {% csrf_token %}
-        
-        {{ form.as_p }}
-        
-        <button type="submit" style="margin-top: 1rem; padding: 0.5rem 2rem;">送信する</button>
-    </form>
 </div>
 {% endblock %}
